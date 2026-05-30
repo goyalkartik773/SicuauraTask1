@@ -1,7 +1,12 @@
-export default function Home() {
+import { fetchFeaturedProducts } from '@/lib/api';
+import ProductGrid from '@/components/ui/ProductGrid';
+
+export default async function HomePage() {
+  const products = await fetchFeaturedProducts();
   return (
-    <div className="flex items-center justify-center min-h-[50vh] p-8">
-      <h1 className="text-3xl font-display font-semibold tracking-wide">Home</h1>
+    <div className="max-w-7xl mx-auto px-4 py-12">
+      <h1 className="font-display text-4xl mb-8 font-semibold tracking-wide">New Arrivals</h1>
+      <ProductGrid products={products} />
     </div>
   );
 }

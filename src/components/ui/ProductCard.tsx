@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Heart, Star, ShoppingBag } from 'lucide-react';
 import { Product } from '@/types';
 import { cn, formatPrice, getDiscountedPrice } from '@/lib/utils';
@@ -51,8 +52,9 @@ export default function ProductCard({ product, index = 0, viewMode = 'grid' }: P
   // Horizontal list view layout
   if (isList) {
     return (
-      <div
-        className="group opacity-0 animate-fadeUp flex flex-row bg-white rounded-2xl overflow-hidden border border-gray-50 hover:border-brand-rose/20 shadow-[0_2px_8px_rgba(0,0,0,0.06)] hover:shadow-[0_12px_40px_rgba(197,56,75,0.15)] transition-all duration-300 w-full"
+      <Link
+        href={`/product/${product.id}`}
+        className="group opacity-0 animate-fadeUp flex flex-row bg-white rounded-2xl overflow-hidden border border-gray-50 hover:border-brand-rose/20 shadow-[0_2px_8px_rgba(0,0,0,0.06)] hover:shadow-[0_12px_40px_rgba(197,56,75,0.15)] transition-all duration-300 w-full cursor-pointer"
         style={{ animationDelay: `${index * 60}ms`, animationFillMode: 'forwards' }}
       >
         {/* Left side: Image Area */}
@@ -159,14 +161,15 @@ export default function ProductCard({ product, index = 0, viewMode = 'grid' }: P
             </div>
           </div>
         </div>
-      </div>
+      </Link>
     );
   }
 
   // Grid view layout
   return (
-    <div
-      className="group opacity-0 animate-fadeUp flex flex-col bg-white rounded-2xl overflow-hidden border border-gray-50 hover:border-brand-rose/20 shadow-[0_2px_8px_rgba(0,0,0,0.06)] hover:shadow-[0_12px_40px_rgba(197,56,75,0.15)] transition-all duration-300"
+    <Link
+      href={`/product/${product.id}`}
+      className="group opacity-0 animate-fadeUp flex flex-col bg-white rounded-2xl overflow-hidden border border-gray-50 hover:border-brand-rose/20 shadow-[0_2px_8px_rgba(0,0,0,0.06)] hover:shadow-[0_12px_40px_rgba(197,56,75,0.15)] transition-all duration-300 cursor-pointer"
       style={{ animationDelay: `${index * 60}ms`, animationFillMode: 'forwards' }}
     >
       {/* Image Area */}
@@ -265,6 +268,6 @@ export default function ProductCard({ product, index = 0, viewMode = 'grid' }: P
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

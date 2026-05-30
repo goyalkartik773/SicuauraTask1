@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Heart, User, ShoppingBag, Menu, X, Search } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useCart } from '@/context/CartContext';
 
 interface NavbarProps {
   isTransparent?: boolean;
@@ -16,6 +17,8 @@ export default function Navbar({ isTransparent = false }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState(searchParams.get('q') || '');
+  const { cart } = useCart();
+  const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
 
   // Track page scroll to toggle sticky styling when transparent prop is enabled
   useEffect(() => {
@@ -176,7 +179,11 @@ export default function Navbar({ isTransparent = false }: NavbarProps) {
                 )}
               >
                 <ShoppingBag size={20} />
-                <span className="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-brand-rose rounded-full" />
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-brand-rose text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center animate-[heartPop_0.3s_ease-out]">
+                    {cartCount}
+                  </span>
+                )}
               </button>
 
               {/* Mobile Menu Toggle */}

@@ -3,6 +3,7 @@ import { Cormorant_Garamond, DM_Sans } from "next/font/google";
 import { Suspense } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import { CartProvider } from "@/context/CartContext";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -43,18 +44,20 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${cormorant.variable} ${dmSans.variable}`}>
       <body className="antialiased">
-        <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-brand-rose focus:text-white focus:px-4 focus:py-2 focus:rounded-lg">
-          Skip to main content
-        </a>
-        <div className="relative flex flex-col min-h-screen">
-          <Suspense fallback={<div className="h-16 bg-white border-b border-gray-100" />}>
-            <Navbar />
-          </Suspense>
-          <main id="main-content" className="min-h-screen">
-            {children}
-          </main>
-          <Footer />
-        </div>
+        <CartProvider>
+          <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-brand-rose focus:text-white focus:px-4 focus:py-2 focus:rounded-lg">
+            Skip to main content
+          </a>
+          <div className="relative flex flex-col min-h-screen">
+            <Suspense fallback={<div className="h-16 bg-white border-b border-gray-100" />}>
+              <Navbar />
+            </Suspense>
+            <main id="main-content" className="min-h-screen">
+              {children}
+            </main>
+            <Footer />
+          </div>
+        </CartProvider>
       </body>
     </html>
   );

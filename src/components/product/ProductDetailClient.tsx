@@ -21,6 +21,7 @@ import { Product } from '@/types';
 import { cn, formatPrice, getDiscountedPrice } from '@/lib/utils';
 import { useCart } from '@/context/CartContext';
 import ProductGrid from '@/components/ui/ProductGrid';
+import { getProductGallery } from '@/lib/imageMap';
 
 interface ProductDetailClientProps {
   product: Product;
@@ -39,7 +40,7 @@ export default function ProductDetailClient({ product, similarProducts }: Produc
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [addedMessage, setAddedMessage] = useState(false);
 
-  const images = product.images && product.images.length > 0 ? product.images : [product.thumbnail];
+  const images = getProductGallery(product);
   const discountedPrice = getDiscountedPrice(product.price, product.discountPercentage);
   const displayDiscount = Math.round(product.discountPercentage);
   const showBadge = product.discountPercentage > 5;
@@ -165,7 +166,8 @@ export default function ProductDetailClient({ product, similarProducts }: Produc
               alt={product.title}
               fill
               priority
-              sizes="(max-width: 1024px) 100vw, 550px"
+              sizes="(max-width: 768px) 100vw, 50vw"
+              quality={90}
               className="object-cover"
             />
 
@@ -230,6 +232,7 @@ export default function ProductDetailClient({ product, similarProducts }: Produc
                     alt={`Thumbnail ${idx + 1}`}
                     fill
                     sizes="80px"
+                    quality={90}
                     className="object-cover"
                   />
                 </button>
@@ -581,6 +584,7 @@ export default function ProductDetailClient({ product, similarProducts }: Produc
               alt={`Zoomed ${product.title}`}
               fill
               sizes="(max-width: 1200px) 100vw, 1200px"
+              quality={90}
               className="object-contain"
             />
           </div>

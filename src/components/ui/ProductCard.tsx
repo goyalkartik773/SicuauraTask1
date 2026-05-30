@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Heart, Star, ShoppingBag } from 'lucide-react';
 import { Product } from '@/types';
 import { cn, formatPrice, getDiscountedPrice } from '@/lib/utils';
+import { getProductImage } from '@/lib/imageMap';
 
 interface ProductCardProps {
   product: Product;
@@ -60,10 +61,11 @@ export default function ProductCard({ product, index = 0, viewMode = 'grid' }: P
         {/* Left side: Image Area */}
         <div className="relative w-40 sm:w-56 aspect-[3/4] flex-shrink-0 overflow-hidden bg-gray-50 select-none">
           <Image
-            src={product.thumbnail}
+            src={getProductImage(product)}
             alt={product.title}
             fill
-            sizes="(max-width: 768px) 160px, 224px"
+            sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+            quality={85}
             className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
 
@@ -176,10 +178,11 @@ export default function ProductCard({ product, index = 0, viewMode = 'grid' }: P
       <div className="relative w-full aspect-[3/4] overflow-hidden bg-gray-50 select-none">
         {/* Next.js Image */}
         <Image
-          src={product.thumbnail}
+          src={getProductImage(product)}
           alt={product.title}
           fill
-          sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+          sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+          quality={85}
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
 

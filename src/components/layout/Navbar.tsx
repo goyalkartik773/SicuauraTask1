@@ -171,10 +171,11 @@ export default function Navbar({ isTransparent = false }: NavbarProps) {
               </button>
 
               {/* Shopping Bag (always visible) */}
-              <button
+              <Link
+                href="/cart"
                 aria-label="Shopping cart"
                 className={cn(
-                  'relative p-1.5 rounded-full transition-colors',
+                  'relative p-1.5 rounded-full transition-colors block',
                   activeTransparent ? 'hover:bg-white/10 text-white' : 'hover:bg-gray-100 text-brand-charcoal'
                 )}
               >
@@ -184,7 +185,7 @@ export default function Navbar({ isTransparent = false }: NavbarProps) {
                     {cartCount}
                   </span>
                 )}
-              </button>
+              </Link>
 
               {/* Mobile Menu Toggle */}
               <button

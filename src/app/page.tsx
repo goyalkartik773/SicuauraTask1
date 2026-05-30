@@ -1,20 +1,22 @@
 import { fetchFeaturedProducts } from '@/lib/api'
 import HeroSection from '@/components/home/HeroSection'
-import ProductGrid from '@/components/ui/ProductGrid'
+import CategoryRow from '@/components/home/CategoryRow'
+import FeaturedBanner from '@/components/home/FeaturedBanner'
+import NewArrivalsSection from '@/components/home/NewArrivalsSection'
+
+export const metadata = {
+  title: 'GG Fashion – Elegance Redefined',
+  description: 'Shop India\'s finest ethnic wear — sarees, lehengas, suits and more.',
+}
 
 export default async function HomePage() {
   const products = await fetchFeaturedProducts()
   return (
-    <div className="w-full flex flex-col">
+    <>
       <HeroSection />
-      <div className="max-w-7xl mx-auto px-4 py-20 w-full">
-        <div className="text-center mb-12">
-          <span className="text-xs tracking-[0.2em] text-brand-gold font-medium uppercase mb-2 block">Curated Collection</span>
-          <h2 className="font-display text-3xl sm:text-4xl font-semibold text-brand-charcoal">New Arrivals</h2>
-          <div className="w-12 h-0.5 bg-brand-rose mx-auto mt-4" />
-        </div>
-        <ProductGrid products={products} />
-      </div>
-    </div>
+      <CategoryRow />
+      <FeaturedBanner />
+      <NewArrivalsSection products={products} />
+    </>
   )
 }

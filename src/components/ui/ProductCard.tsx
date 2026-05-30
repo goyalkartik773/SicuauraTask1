@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Heart, Star, ShoppingBag } from 'lucide-react';
+import { Heart, Star, ShoppingBag, Package } from 'lucide-react';
 import { Product } from '@/types';
 import { cn, formatPrice, getDiscountedPrice } from '@/lib/utils';
 import { getProductImage } from '@/lib/imageMap';
@@ -16,6 +16,7 @@ interface ProductCardProps {
 
 export default function ProductCard({ product, index = 0, viewMode = 'grid' }: ProductCardProps) {
   const [isWishlisted, setIsWishlisted] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   const discountedPrice = getDiscountedPrice(product.price, product.discountPercentage);
   const displayDiscount = Math.round(product.discountPercentage);
@@ -60,14 +61,21 @@ export default function ProductCard({ product, index = 0, viewMode = 'grid' }: P
       >
         {/* Left side: Image Area */}
         <div className="relative w-40 sm:w-56 aspect-[3/4] flex-shrink-0 overflow-hidden bg-gray-50 select-none">
-          <Image
-            src={getProductImage(product)}
-            alt={product.title}
-            fill
-            sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-            quality={85}
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
-          />
+          {!imageError ? (
+            <Image
+              src={getProductImage(product)}
+              alt={product.title}
+              fill
+              sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+              quality={85}
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
+              onError={() => setImageError(true)}
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-50">
+              <Package className="w-12 h-12 text-gray-300" />
+            </div>
+          )}
 
           {/* Ribbon shape discount badge */}
           {showBadge && (
@@ -177,14 +185,21 @@ export default function ProductCard({ product, index = 0, viewMode = 'grid' }: P
       {/* Image Area */}
       <div className="relative w-full aspect-[3/4] overflow-hidden bg-gray-50 select-none">
         {/* Next.js Image */}
-        <Image
-          src={getProductImage(product)}
-          alt={product.title}
-          fill
-          sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-          quality={85}
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
-        />
+        {!imageError ? (
+          <Image
+            src={getProductImage(product)}
+            alt={product.title}
+            fill
+            sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+            quality={85}
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            onError={() => setImageError(true)}
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-50">
+            <Package className="w-16 h-16 text-gray-300" />
+          </div>
+        )}
 
         {/* Ribbon shape discount badge */}
         {showBadge && (

@@ -2,30 +2,27 @@ const CATEGORY_IMAGES: Record<string, string[]> = {
   beauty: [
     'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&q=90',
     'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=800&q=90',
-    'https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=800&q=90',
-    'https://images.unsplash.com/photo-1583241475880-083f84372725?w=800&q=90',
-    'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=800&q=90',
-    'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=90',
     'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=800&q=90',
-    'https://images.unsplash.com/photo-1519415943484-9fa1873496d4?w=800&q=90',
     'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=800&q=90',
-    'https://images.unsplash.com/photo-1599305090598-fe179d501227?w=800&q=90',
-    'https://images.unsplash.com/photo-1614159102882-a79a4c5e7cd7?w=800&q=90',
-    'https://images.unsplash.com/photo-1625093934107-23b5f4d09f3f?w=800&q=90',
+    'https://images.unsplash.com/photo-1599733589046-10c005739ef9?w=800&q=90',
+    'https://images.unsplash.com/photo-1515688594390-b649af70d282?w=800&q=90',
+    'https://images.unsplash.com/photo-1617897903246-719242758050?w=800&q=90',
+    'https://images.unsplash.com/photo-1526947425960-945c6e72858f?w=800&q=90',
+    'https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?w=800&q=90',
+    'https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=800&q=90',
   ],
 
   fragrances: [
     'https://images.unsplash.com/photo-1594035910387-fea47794261f?w=800&q=90',
-    'https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?w=800&q=90',
+    'https://images.unsplash.com/photo-1547887538-047f8d6c0547?w=800&q=90',
     'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=800&q=90',
     'https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=800&q=90',
-    'https://images.unsplash.com/photo-1547887538-047f8d6c0547?w=800&q=90',
+    'https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?w=800&q=90',
     'https://images.unsplash.com/photo-1563170351-be82bc888aa4?w=800&q=90',
+    'https://images.unsplash.com/photo-1595425970377-c9703cf48b6d?w=800&q=90',
+    'https://images.unsplash.com/photo-1616949755610-8c9bbc08f138?w=800&q=90',
     'https://images.unsplash.com/photo-1583530817132-5b2af9b87eb2?w=800&q=90',
     'https://images.unsplash.com/photo-1600612253971-57b851f97b4d?w=800&q=90',
-    'https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=800&q=90',
-    'https://images.unsplash.com/photo-1616604047662-dfbdb7c5a1af?w=800&q=90',
-    'https://images.unsplash.com/photo-1598452963314-b09f397a5c48?w=800&q=90',
   ],
 
   furniture: [
@@ -34,12 +31,11 @@ const CATEGORY_IMAGES: Record<string, string[]> = {
     'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=800&q=90',
     'https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800&q=90',
     'https://images.unsplash.com/photo-1538688525198-9b88f6f53126?w=800&q=90',
-    'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=800&q=90',
+    'https://images.unsplash.com/photo-1592078615290-033ee584e267?w=800&q=90',
+    'https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=800&q=90',
     'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=90',
-    'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800&q=90',
-    'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=90',
-    'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?w=800&q=90',
-    'https://images.unsplash.com/photo-1560185007-cde436f6a4d0?w=800&q=90',
+    'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800&q=90',
+    'https://images.unsplash.com/photo-1540518614846-7eded433c457?w=800&q=90',
   ],
 
   groceries: [
@@ -51,37 +47,34 @@ const CATEGORY_IMAGES: Record<string, string[]> = {
     'https://images.unsplash.com/photo-1563636619-e9143da7973b?w=800&q=90',
     'https://images.unsplash.com/photo-1490818387583-1baba5e638af?w=800&q=90',
     'https://images.unsplash.com/photo-1550989460-0adf9ea622e2?w=800&q=90',
-    'https://images.unsplash.com/photo-1596591868231-05e881f2a0a8?w=800&q=90',
     'https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=800&q=90',
     'https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?w=800&q=90',
   ],
 
   'home-decoration': [
-    'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=90',
     'https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=800&q=90',
+    'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=800&q=90',
     'https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=800&q=90',
     'https://images.unsplash.com/photo-1594026112284-02bb6f3352fe?w=800&q=90',
     'https://images.unsplash.com/photo-1567016432779-094069958ea5?w=800&q=90',
-    'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=90',
-    'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=800&q=90',
     'https://images.unsplash.com/photo-1499955085172-a104c9463ece?w=800&q=90',
-    'https://images.unsplash.com/photo-1538688525198-9b88f6f53126?w=800&q=90',
     'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=90',
     'https://images.unsplash.com/photo-1615529328331-f8917597711f?w=800&q=90',
+    'https://images.unsplash.com/photo-1519710164239-da123dc03ef4?w=800&q=90',
+    'https://images.unsplash.com/photo-1534349762230-e0ade4c5af6e?w=800&q=90',
   ],
 
   'kitchen-accessories': [
-    'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=90',
-    'https://images.unsplash.com/photo-1585515320310-259814833e62?w=800&q=90',
     'https://images.unsplash.com/photo-1556909172-54557c7e4fb7?w=800&q=90',
     'https://images.unsplash.com/photo-1612865547334-09cb8cb455da?w=800&q=90',
     'https://images.unsplash.com/photo-1590794056226-79ef3a8147e1?w=800&q=90',
     'https://images.unsplash.com/photo-1565538810643-b5bdb714032a?w=800&q=90',
-    'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=800&q=90',
     'https://images.unsplash.com/photo-1484980972926-edee96e0960d?w=800&q=90',
     'https://images.unsplash.com/photo-1507048331197-7d4ac70811cf?w=800&q=90',
     'https://images.unsplash.com/photo-1547592180-85f173990554?w=800&q=90',
     'https://images.unsplash.com/photo-1574269909862-7e1d70bb8078?w=800&q=90',
+    'https://images.unsplash.com/photo-1596431760496-749e64e3d3fa?w=800&q=90',
+    'https://images.unsplash.com/photo-1522036047913-35ff5e30d17e?w=800&q=90',
   ],
 
   laptops: [
@@ -95,7 +88,6 @@ const CATEGORY_IMAGES: Record<string, string[]> = {
     'https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=800&q=90',
     'https://images.unsplash.com/photo-1504707748692-419802cf939d?w=800&q=90',
     'https://images.unsplash.com/photo-1542393545-10f5cde2c810?w=800&q=90',
-    'https://images.unsplash.com/photo-1598986646512-9330bcc4c0dc?w=800&q=90',
   ],
 
   'mens-shirts': [
@@ -109,7 +101,6 @@ const CATEGORY_IMAGES: Record<string, string[]> = {
     'https://images.unsplash.com/photo-1563630423918-b58f07336ac5?w=800&q=90',
     'https://images.unsplash.com/photo-1621072156002-e2fccdc0b176?w=800&q=90',
     'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800&q=90',
-    'https://images.unsplash.com/photo-1604644401890-0bd678c83788?w=800&q=90',
   ],
 
   'mens-shoes': [
@@ -123,21 +114,19 @@ const CATEGORY_IMAGES: Record<string, string[]> = {
     'https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=800&q=90',
     'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=800&q=90',
     'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=800&q=90',
-    'https://images.unsplash.com/photo-1511556820780-d912e42b4980?w=800&q=90',
   ],
 
   'mens-watches': [
     'https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=800&q=90',
     'https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?w=800&q=90',
-    'https://images.unsplash.com/photo-1548171916-c8fd5d32a4b3?w=800&q=90',
     'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=90',
     'https://images.unsplash.com/photo-1585123334904-845d60e97b29?w=800&q=90',
     'https://images.unsplash.com/photo-1612817288484-6f916006741a?w=800&q=90',
     'https://images.unsplash.com/photo-1508057198894-247b23fe5ade?w=800&q=90',
     'https://images.unsplash.com/photo-1619946794135-5bc917a27793?w=800&q=90',
-    'https://images.unsplash.com/photo-1600959907703-18d3a8f96e37?w=800&q=90',
     'https://images.unsplash.com/photo-1434056886845-dac89ffe9b56?w=800&q=90',
-    'https://images.unsplash.com/photo-1636733708362-4e6c14f11c85?w=800&q=90',
+    'https://images.unsplash.com/photo-1622434641406-a158123450f9?w=800&q=90',
+    'https://images.unsplash.com/photo-1539874754764-5a96559165b0?w=800&q=90',
   ],
 
   'mobile-accessories': [
@@ -147,11 +136,10 @@ const CATEGORY_IMAGES: Record<string, string[]> = {
     'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=800&q=90',
     'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?w=800&q=90',
     'https://images.unsplash.com/photo-1585060544812-6b45742d762f?w=800&q=90',
-    'https://images.unsplash.com/photo-1615655406736-b37892a30a40?w=800&q=90',
     'https://images.unsplash.com/photo-1556656793-08538906a9f8?w=800&q=90',
     'https://images.unsplash.com/photo-1484704849700-f032a568e944?w=800&q=90',
     'https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=800&q=90',
-    'https://images.unsplash.com/photo-1628815113969-0487917e8b76?w=800&q=90',
+    'https://images.unsplash.com/photo-1622445262460-24b240000a4a?w=800&q=90',
   ],
 
   'womens-bags': [
@@ -162,10 +150,9 @@ const CATEGORY_IMAGES: Record<string, string[]> = {
     'https://images.unsplash.com/photo-1575032617751-6ddec2089882?w=800&q=90',
     'https://images.unsplash.com/photo-1590739225287-bd31519780b3?w=800&q=90',
     'https://images.unsplash.com/photo-1559563458-527698bf5295?w=800&q=90',
-    'https://images.unsplash.com/photo-1608731267464-c0c889c2ff92?w=800&q=90',
-    'https://images.unsplash.com/photo-1621369108005-9ff27753fa55?w=800&q=90',
-    'https://images.unsplash.com/photo-1565084888279-aca607bb7e3f?w=800&q=90',
     'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&q=90',
+    'https://images.unsplash.com/photo-1591561954557-26941169b49e?w=800&q=90',
+    'https://images.unsplash.com/photo-1581605405669-fcdf81165afa?w=800&q=90',
   ],
 
   'womens-dresses': [
@@ -178,13 +165,11 @@ const CATEGORY_IMAGES: Record<string, string[]> = {
     'https://images.unsplash.com/photo-1518622358385-8ea7d0794bf6?w=800&q=90',
     'https://images.unsplash.com/photo-1552902865-b72c031ac5ea?w=800&q=90',
     'https://images.unsplash.com/photo-1551803091-e20673f15770?w=800&q=90',
-    'https://images.unsplash.com/photo-1568252542512-9fe8fe9c87bb?w=800&q=90',
-    'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800&q=90',
+    'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800&q=90',
   ],
 
   'womens-jewellery': [
     'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800&q=90',
-    'https://images.unsplash.com/photo-1573408301185-9519f94815d4?w=800&q=90',
     'https://images.unsplash.com/photo-1602173574767-37ac01994b2a?w=800&q=90',
     'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=800&q=90',
     'https://images.unsplash.com/photo-1506630448388-4e683c67ddb0?w=800&q=90',
@@ -192,50 +177,47 @@ const CATEGORY_IMAGES: Record<string, string[]> = {
     'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=800&q=90',
     'https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?w=800&q=90',
     'https://images.unsplash.com/photo-1630018548696-e1dc68a7e7af?w=800&q=90',
-    'https://images.unsplash.com/photo-1588444837495-c6cfeb53f32d?w=800&q=90',
-    'https://images.unsplash.com/photo-1645816891090-a4f3c4e68e4d?w=800&q=90',
+    'https://images.unsplash.com/photo-1598560917505-59a3ad559071?w=800&q=90',
+    'https://images.unsplash.com/photo-1531995811006-35cb42e1a022?w=800&q=90',
   ],
 
   'womens-shoes': [
     'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=800&q=90',
     'https://images.unsplash.com/photo-1515347619252-60a4bf4fff4f?w=800&q=90',
-    'https://images.unsplash.com/photo-1554062614-6da4fa9e57b8?w=800&q=90',
     'https://images.unsplash.com/photo-1561861422-a549073e547a?w=800&q=90',
-    'https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?w=800&q=90',
     'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=800&q=90',
     'https://images.unsplash.com/photo-1607522370275-f14206abe5d3?w=800&q=90',
     'https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=800&q=90',
-    'https://images.unsplash.com/photo-1590164915218-f8bd47a12682?w=800&q=90',
     'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800&q=90',
     'https://images.unsplash.com/photo-1531310197839-ccf54634509e?w=800&q=90',
+    'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800&q=90',
+    'https://images.unsplash.com/photo-1603252109303-2751441dd157?w=800&q=90',
   ],
 
   'womens-watches': [
     'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=90',
-    'https://images.unsplash.com/photo-1617206240240-24ab1e685a89?w=800&q=90',
     'https://images.unsplash.com/photo-1587925358603-c2eea5305bbc?w=800&q=90',
     'https://images.unsplash.com/photo-1548169874-53e85f753f1e?w=800&q=90',
     'https://images.unsplash.com/photo-1612817288484-6f916006741a?w=800&q=90',
     'https://images.unsplash.com/photo-1434056886845-dac89ffe9b56?w=800&q=90',
     'https://images.unsplash.com/photo-1508057198894-247b23fe5ade?w=800&q=90',
     'https://images.unsplash.com/photo-1617197818839-9f3cf8d16a61?w=800&q=90',
-    'https://images.unsplash.com/photo-1600959907703-18d3a8f96e37?w=800&q=90',
     'https://images.unsplash.com/photo-1559981421-3e0c0d712835?w=800&q=90',
     'https://images.unsplash.com/photo-1576502200916-3808e07386a5?w=800&q=90',
+    'https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?w=800&q=90',
   ],
 
   tops: [
     'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=800&q=90',
     'https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=800&q=90',
-    'https://images.unsplash.com/photo-1562572159-4efd90232744?w=800&q=90',
     'https://images.unsplash.com/photo-1554568218-0f1715e72254?w=800&q=90',
     'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=800&q=90',
     'https://images.unsplash.com/photo-1617922001439-4a2e6562f328?w=800&q=90',
-    'https://images.unsplash.com/photo-1587152931857-f5e4f2b4f472?w=800&q=90',
     'https://images.unsplash.com/photo-1578587018452-892bacefd3f2?w=800&q=90',
     'https://images.unsplash.com/photo-1564257631407-4deb1f99d992?w=800&q=90',
     'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=800&q=90',
     'https://images.unsplash.com/photo-1583744946564-b52ac1c389c8?w=800&q=90',
+    'https://images.unsplash.com/photo-1624251490363-9a95b82ae5b7?w=800&q=90',
   ],
 
   sunglasses: [
@@ -248,8 +230,7 @@ const CATEGORY_IMAGES: Record<string, string[]> = {
     'https://images.unsplash.com/photo-1574258495973-f010dfbb5371?w=800&q=90',
     'https://images.unsplash.com/photo-1618354691438-25bc04584c23?w=800&q=90',
     'https://images.unsplash.com/photo-1589656966895-2f33e7653819?w=800&q=90',
-    'https://images.unsplash.com/photo-1602538127771-fca58b37d9f5?w=800&q=90',
-    'https://images.unsplash.com/photo-1561651823-34feb02250e4?w=800&q=90',
+    'https://images.unsplash.com/photo-1509695507497-903c140c43b0?w=800&q=90',
   ],
 
   'sports-accessories': [
@@ -263,7 +244,6 @@ const CATEGORY_IMAGES: Record<string, string[]> = {
     'https://images.unsplash.com/photo-1599058917765-a780eda07a3e?w=800&q=90',
     'https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?w=800&q=90',
     'https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=800&q=90',
-    'https://images.unsplash.com/photo-1614850715649-1d0106293bd1?w=800&q=90',
   ],
 
   'skin-care': [
@@ -275,9 +255,8 @@ const CATEGORY_IMAGES: Record<string, string[]> = {
     'https://images.unsplash.com/photo-1612817288484-6f916006741a?w=800&q=90',
     'https://images.unsplash.com/photo-1617897903246-719242758050?w=800&q=90',
     'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=800&q=90',
-    'https://images.unsplash.com/photo-1614340281458-06bfdb8a8fe5?w=800&q=90',
     'https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=800&q=90',
-    'https://images.unsplash.com/photo-1588514912908-b5257cb8920f?w=800&q=90',
+    'https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=800&q=90',
   ],
 }
 
@@ -293,23 +272,45 @@ const FALLBACK_IMAGES = [
   'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=800&q=90',
   'https://images.unsplash.com/photo-1467043237213-65f2da53396f?w=800&q=90',
 ]
-
 export function getProductImage(product: {
   id: number
   category: string
-  thumbnail: string
+  thumbnail?: string
 }): string {
+  // Use category-based images first
   const images = CATEGORY_IMAGES[product.category] || FALLBACK_IMAGES
-  return images[product.id % images.length]
+  const categoryImage = images[product.id % images.length]
+  
+  // Fallback to API thumbnail if needed
+  if (!categoryImage || categoryImage === FALLBACK_IMAGES[0]) {
+    if (product.thumbnail && product.thumbnail.startsWith('http')) {
+      return product.thumbnail
+    }
+  }
+  
+  return categoryImage
 }
 
 export function getProductGallery(product: {
   id: number
   category: string
-  images: string[]
+  images?: string[]
+  thumbnail?: string
 }): string[] {
+  // Use category-based images first
   const images = CATEGORY_IMAGES[product.category] || FALLBACK_IMAGES
-  return Array.from({ length: 4 }, (_, i) =>
+  const categoryGallery = Array.from({ length: 4 }, (_, i) =>
     images[(product.id + i) % images.length]
   )
+  
+  // Fallback to API images only if category images aren't available
+  if (product.images && Array.isArray(product.images) && product.images.length > 0) {
+    const apiImages = product.images.filter((img: string) => img && img.startsWith('http')).slice(0, 4)
+    if (apiImages.length === 0) {
+      return categoryGallery
+    }
+    return apiImages
+  }
+  
+  return categoryGallery
 }

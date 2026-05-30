@@ -15,7 +15,8 @@ import {
   ShieldCheck, 
   Truck, 
   Award, 
-  X 
+  X,
+  Package
 } from 'lucide-react';
 import { Product } from '@/types';
 import { cn, formatPrice, getDiscountedPrice } from '@/lib/utils';
@@ -39,6 +40,7 @@ export default function ProductDetailClient({ product, similarProducts }: Produc
   const [isShippingOpen, setIsShippingOpen] = useState(false);
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [addedMessage, setAddedMessage] = useState(false);
+  const [imageErrors, setImageErrors] = useState<Record<number, boolean>>({});
 
   const images = getProductGallery(product);
   const discountedPrice = getDiscountedPrice(product.price, product.discountPercentage);
@@ -161,15 +163,22 @@ export default function ProductDetailClient({ product, similarProducts }: Produc
         <div className="flex flex-col">
           {/* Main Display Container */}
           <div className="relative aspect-[4/5] rounded-3xl overflow-hidden bg-gray-50 group/gallery border border-gray-100">
-            <Image
-              src={images[selectedImage]}
-              alt={product.title}
-              fill
-              priority
-              sizes="(max-width: 768px) 100vw, 50vw"
-              quality={90}
-              className="object-cover"
-            />
+            {!imageErrors[selectedImage] ? (
+              <Image
+                src={images[selectedImage]}
+                alt={product.title}
+                fill
+                priority
+                sizes="(max-width: 768px) 100vw, 50vw"
+                quality={90}
+                className="object-cover"
+                onError={() => setImageErrors(prev => ({ ...prev, [selectedImage]: true }))}
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-50">
+                <Package className="w-20 h-20 text-gray-300" />
+              </div>
+            )}
 
             {/* Gallery cycling navigation */}
             {images.length > 1 && (
@@ -234,6 +243,7 @@ export default function ProductDetailClient({ product, similarProducts }: Produc
                     sizes="80px"
                     quality={90}
                     className="object-cover"
+                    onError={() => setImageErrors(prev => ({ ...prev, [idx]: true }))}
                   />
                 </button>
               ))}

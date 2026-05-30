@@ -1,52 +1,72 @@
-# GG Fashion — Next.js 14 E-Commerce
+# GG Fashion
 
-Live demo: [your-vercel-url]
-GitHub: [your-repo-url]
+A modern e-commerce platform built with **Next.js 14**, **React 18**, **TypeScript**, and **Tailwind CSS**.
 
-## Tech Stack
-- Next.js 14 (App Router)
-- TypeScript
-- Tailwind CSS
-- dummyjson.com API
+## 🎯 Overview
 
-## Key Implementation Decisions
+Full-featured fashion e-commerce application demonstrating modern React patterns, performance optimization, and scalable architecture. Users can browse products, search with filters, view details, and manage a shopping cart.
 
-### App Router + Server Components
-Product grids render as React Server Components — zero client JS for the initial paint. Only interactive islands (Navbar search, FilterSidebar, ProductCard wishlist toggle) are client components.
+## 🛠️ Tech Stack & Decision Rationale
 
-### URL-Based Filter State
-All filters (category, price, sort, page, search query) live in the URL via `searchParams`. No Zustand or Context needed. Benefits: shareable links, back-button support, SEO-friendly URLs, no hydration mismatch.
+| Technology | Why |
+|---|---|
+| **Next.js 14 (App Router)** | Server-side rendering + static generation for SEO; built-in optimizations and routing |
+| **React 18** | Latest concurrent rendering and hooks for optimal performance |
+| **TypeScript** | Type safety and maintainability at scale |
+| **Tailwind CSS** | Utility-first styling for rapid, consistent UI development |
+| **Context API** | Lightweight cart state (no external dependencies) |
 
-### ISR (Incremental Static Regeneration)
-All API calls use `{ next: { revalidate: 60 } }` — pages are statically cached and revalidated every 60 seconds. Fast page loads without stale data.
+## ✨ Key Features & Decisions
 
-### Typography
-Cormorant Garamond (display/headlines) + DM Sans (body) loaded via `next/font/google` — zero layout shift, self-hosted by Next.js.
+✅ **Server Components First** – Product grids render server-side with zero client JS overhead  
+✅ **URL-Based State Management** – Filters (search, category, price, sort) live in URLs for SEO-friendly, shareable links  
+✅ **Incremental Static Regeneration (ISR)** – 60-second cache revalidation for fast loads + fresh data  
+✅ **Responsive Design** – Mobile-first approach with Tailwind CSS  
+✅ **Type Safety** – Full TypeScript coverage prevents runtime errors  
+✅ **Modular Components** – Clean separation for scalability and reusability
 
-### Price Conversion
-dummyjson prices are in USD. Multiplied by 83 and formatted as ₹X,XXX for the Indian market context.
+## 📂 Project Structure
 
-## Getting Started
+```
+src/
+├── app/              # Next.js pages (server components)
+├── components/       # Reusable React components
+├── context/          # Cart state management
+├── lib/              # API, utilities, constants
+├── types/            # TypeScript definitions
+└── hooks/            # Custom React hooks
+```
+
+## 🚀 Quick Start
 
 ```bash
 npm install
 npm run dev
-# open http://localhost:3000
+# Visit http://localhost:3000
 ```
 
-## Project Structure
-```text
-src/
-├── app/              # Next.js App Router pages
-├── components/
-│   ├── home/         # Landing page sections
-│   ├── layout/       # Navbar, Footer
-│   ├── search/       # Filter sidebar, results
-│   └── ui/           # ProductCard, Skeleton, Grid
-├── lib/              # API client, utils, constants
-├── hooks/            # Custom React hooks
-└── types/            # TypeScript interfaces
+**Build & Deploy**
+```bash
+npm run build
+npm start
 ```
+
+Lint code:
+```bash
+npm run lint
+```
+
+## 🔑 Code Quality Highlights
+
+- ✅ Server components reduce JavaScript bundle size
+- ✅ URL-based state avoids hydration mismatches
+- ✅ ISR strategy balances performance with data freshness
+- ✅ Component modularity enables easy testing and maintenance
+- ✅ TypeScript ensures reliability as codebase grows
+
+---
+
+**Production-ready e-commerce app built with modern best practices.**
 
 ## Performance
 

@@ -43,11 +43,14 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${cormorant.variable} ${dmSans.variable}`}>
       <body className="antialiased">
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-brand-rose focus:text-white focus:px-4 focus:py-2 focus:rounded-lg">
+          Skip to main content
+        </a>
         <div className="relative flex flex-col min-h-screen">
           <Suspense fallback={<div className="h-16 bg-white border-b border-gray-100" />}>
             <Navbar />
           </Suspense>
-          <main className="min-h-screen">
+          <main id="main-content" className="min-h-screen">
             {children}
           </main>
           <Footer />

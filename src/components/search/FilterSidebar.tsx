@@ -1,5 +1,7 @@
 'use client';
 
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { X } from 'lucide-react';
 import { CATEGORIES } from '@/lib/constants';
 import { FilterState, SortOption } from '@/types';
@@ -12,28 +14,45 @@ interface FilterSidebarProps {
 }
 
 export default function FilterSidebar({ filters, onChange, onClose }: FilterSidebarProps) {
+  const router = useRouter();
+
   const minPrice = filters.minPrice ?? 0;
   const maxPrice = filters.maxPrice ?? 5000;
   const activeCategory = filters.category || 'all';
   const activeSort = filters.sortBy || 'default';
 
+  // Live range states during dragging
+  const [localMinPrice, setLocalMinPrice] = useState(minPrice);
+  const [localMaxPrice, setLocalMaxPrice] = useState(maxPrice);
+
+  // Sync internal slider states if parent props update from outside
+  useEffect(() => {
+    setLocalMinPrice(minPrice);
+  }, [minPrice]);
+
+  useEffect(() => {
+    setLocalMaxPrice(maxPrice);
+  }, [maxPrice]);
+
   // Determine if any filters are actively changed from the defaults
   const isAnyFilterActive =
     (filters.q && filters.q !== '') ||
-    (activeCategory && activeCategory !== 'all') ||
+    (activeCategory && activeCategory !== 'all' && activeCategory !== '') ||
     minPrice > 0 ||
     maxPrice < 5000 ||
     activeSort !== 'default';
 
   const handleClearAll = () => {
+    // Reset to exact specified state parameters
     onChange({
       q: '',
-      category: 'all',
+      category: '',
       minPrice: 0,
       maxPrice: 5000,
       sortBy: 'default',
       page: 1,
     });
+    router.push('/search');
   };
 
   const sortOptions = [
@@ -80,11 +99,14 @@ export default function FilterSidebar({ filters, onChange, onClose }: FilterSide
           </h3>
           <div className="flex flex-col gap-1">
             {CATEGORIES.map((cat) => {
-              const isSelected = activeCategory === cat.slug;
+              // Highlight 'All Collection' (all) if activeCategory is empty ('') or 'all'
+              const isSelected =
+                (cat.slug === 'all' && (activeCategory === 'all' || activeCategory === '')) ||
+                activeCategory === cat.slug;
               return (
                 <button
                   key={cat.slug}
-                  onClick={() => onChange({ category: cat.slug, page: 1 })}
+                  onClick={() => onChange({ category: cat.slug === 'all' ? '' : cat.slug, page: 1 })}
                   className={cn(
                     'w-full text-left px-3 py-2.5 rounded-lg text-sm transition-colors duration-200 font-body font-medium',
                     isSelected
@@ -105,7 +127,7 @@ export default function FilterSidebar({ filters, onChange, onClose }: FilterSide
             Price Range
           </h3>
           <div className="text-sm font-body font-medium text-gray-600 mb-4">
-            ₹{minPrice.toLocaleString('en-IN')} &ndash; ₹{maxPrice.toLocaleString('en-IN')}
+            ₹{localMinPrice.toLocaleString('en-IN')} &ndash; ₹{localMaxPrice.toLocaleString('en-IN')}
           </div>
           
           <div className="space-y-4">
@@ -113,14 +135,18 @@ export default function FilterSidebar({ filters, onChange, onClose }: FilterSide
             <div>
               <div className="flex justify-between text-xs text-gray-400 mb-1">
                 <span>Min Price</span>
-                <span>₹{minPrice.toLocaleString('en-IN')}</span>
+                <span>₹{localMinPrice.toLocaleString('en-IN')}</span>
               </div>
               <input
                 type="range"
                 min="0"
                 max="5000"
                 step="100"
-                value={minPrice}
+                value={localMinPrice}
+                onInput={(e) => {
+                  const val = Number(e.currentTarget.value);
+                  setLocalMinPrice(Math.min(val, localMaxPrice));
+                }}
                 onChange={(e) => {
                   const val = Number(e.target.value);
                   onChange({ minPrice: Math.min(val, maxPrice), page: 1 });
@@ -133,14 +159,18 @@ export default function FilterSidebar({ filters, onChange, onClose }: FilterSide
             <div>
               <div className="flex justify-between text-xs text-gray-400 mb-1">
                 <span>Max Price</span>
-                <span>₹{maxPrice.toLocaleString('en-IN')}</span>
+                <span>₹{localMaxPrice.toLocaleString('en-IN')}</span>
               </div>
               <input
                 type="range"
                 min="0"
                 max="5000"
                 step="100"
-                value={maxPrice}
+                value={localMaxPrice}
+                onInput={(e) => {
+                  const val = Number(e.currentTarget.value);
+                  setLocalMaxPrice(Math.max(val, localMinPrice));
+                }}
                 onChange={(e) => {
                   const val = Number(e.target.value);
                   onChange({ maxPrice: Math.max(val, minPrice), page: 1 });

@@ -85,7 +85,7 @@ export default function Navbar({ isTransparent = false }: NavbarProps) {
             </Link>
 
             {/* Desktop Navigation Links */}
-            <nav className="hidden md:flex items-center gap-6">
+            <nav role="navigation" aria-label="Main navigation" className="hidden md:flex items-center gap-6">
               {navLinks.map((link) => {
                 const isActive = currentCategory === link.slug;
                 return (
@@ -125,6 +125,7 @@ export default function Navbar({ isTransparent = false }: NavbarProps) {
               />
               <button
                 type="submit"
+                aria-label="Search"
                 className="absolute left-3.5 top-1/2 -translate-y-1/2 flex items-center justify-center"
               >
                 <Search
@@ -142,7 +143,7 @@ export default function Navbar({ isTransparent = false }: NavbarProps) {
           <div className="flex items-center gap-4">
             {/* Desktop only buttons */}
             <button
-              aria-label="Wishlist"
+              aria-label="Add to wishlist"
               className={cn(
                 'hidden md:block p-1.5 rounded-full transition-colors',
                 activeTransparent ? 'hover:bg-white/10 text-white' : 'hover:bg-gray-100 text-brand-charcoal'
@@ -162,7 +163,7 @@ export default function Navbar({ isTransparent = false }: NavbarProps) {
 
             {/* Shopping Bag (always visible) */}
             <button
-              aria-label="Cart"
+              aria-label="Shopping cart"
               className={cn(
                 'relative p-1.5 rounded-full transition-colors',
                 activeTransparent ? 'hover:bg-white/10 text-white' : 'hover:bg-gray-100 text-brand-charcoal'
@@ -174,7 +175,7 @@ export default function Navbar({ isTransparent = false }: NavbarProps) {
 
             {/* Mobile Menu Toggle */}
             <button
-              aria-label="Menu"
+              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className={cn(
                 'md:hidden p-1.5 rounded-full transition-colors',
@@ -202,6 +203,7 @@ export default function Navbar({ isTransparent = false }: NavbarProps) {
               />
               <button
                 type="submit"
+                aria-label="Search"
                 className="absolute left-3.5 top-1/2 -translate-y-1/2 flex items-center justify-center"
               >
                 <Search size={16} className="text-gray-400" />

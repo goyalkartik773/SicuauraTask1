@@ -3,15 +3,15 @@ import { Instagram, Facebook, Twitter } from 'lucide-react';
 
 export default function Footer() {
   return (
-    <footer className="bg-brand-charcoal text-white pt-16 pb-8 border-t border-white/5">
+    <footer className="bg-gradient-to-b from-brand-charcoal to-[#0f0f0f] text-white pt-16 pb-8 border-t-2 border-brand-gold/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main 4-Column Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 pb-12 border-b border-white/10">
           {/* Column 1: Brand & Tagline */}
           <div className="space-y-4">
             <div className="flex items-center tracking-tight select-none">
-              <span className="font-display font-bold text-2xl text-brand-rose">GG</span>
-              <span className="font-display font-light text-xl text-white ml-0.5">Fashion</span>
+              <span className="font-display font-bold text-2xl text-brand-rose italic tracking-tight border-b-2 border-brand-gold pb-0.5">GG</span>
+              <span className="font-display font-light text-xl text-white ml-1">Fashion</span>
             </div>
             <p className="text-sm font-body text-gray-300 leading-relaxed max-w-xs">
               Elegance Redefined. Discover India&apos;s finest ethnic wear, curated with timeless craft and modern elegance.
@@ -23,7 +23,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
-                className="p-2 rounded-full bg-white/5 hover:bg-brand-rose text-gray-300 hover:text-white transition-colors duration-300"
+                className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center hover:border-brand-gold hover:text-brand-gold text-gray-300 transition-all duration-300"
               >
                 <Instagram size={18} />
               </a>
@@ -32,7 +32,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Facebook"
-                className="p-2 rounded-full bg-white/5 hover:bg-brand-rose text-gray-300 hover:text-white transition-colors duration-300"
+                className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center hover:border-brand-gold hover:text-brand-gold text-gray-300 transition-all duration-300"
               >
                 <Facebook size={18} />
               </a>
@@ -41,7 +41,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Twitter"
-                className="p-2 rounded-full bg-white/5 hover:bg-brand-rose text-gray-300 hover:text-white transition-colors duration-300"
+                className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center hover:border-brand-gold hover:text-brand-gold text-gray-300 transition-all duration-300"
               >
                 <Twitter size={18} />
               </a>
@@ -50,7 +50,7 @@ export default function Footer() {
 
           {/* Column 2: Quick Links */}
           <div className="space-y-4">
-            <h2 className="text-sm font-display font-semibold uppercase tracking-widest text-brand-gold">
+            <h2 className="text-sm font-display font-semibold uppercase tracking-widest text-brand-gold after:block after:w-8 after:h-px after:bg-brand-gold after:mt-2">
               Quick Links
             </h2>
             <ul className="space-y-2.5 text-sm font-body">
@@ -79,7 +79,7 @@ export default function Footer() {
 
           {/* Column 3: Customer Care */}
           <div className="space-y-4">
-            <h2 className="text-sm font-display font-semibold uppercase tracking-widest text-brand-gold">
+            <h2 className="text-sm font-display font-semibold uppercase tracking-widest text-brand-gold after:block after:w-8 after:h-px after:bg-brand-gold after:mt-2">
               Customer Care
             </h2>
             <ul className="space-y-2.5 text-sm font-body">
@@ -108,7 +108,7 @@ export default function Footer() {
 
           {/* Column 4: Stay Connected (Subscription) */}
           <div className="space-y-4">
-            <h2 className="text-sm font-display font-semibold uppercase tracking-widest text-brand-gold">
+            <h2 className="text-sm font-display font-semibold uppercase tracking-widest text-brand-gold after:block after:w-8 after:h-px after:bg-brand-gold after:mt-2">
               Stay Connected
             </h2>
             <p className="text-sm font-body text-gray-300">
@@ -119,11 +119,11 @@ export default function Footer() {
                 type="email"
                 placeholder="Enter your email"
                 required
-                className="px-4 py-2 text-sm text-brand-charcoal bg-white rounded-md sm:rounded-l-md sm:rounded-r-none focus:outline-none w-full"
+                className="px-4 py-2 text-sm text-white bg-white/10 border border-white/20 placeholder:text-white/40 rounded-md sm:rounded-l-md sm:rounded-r-none focus:outline-none focus:border-brand-gold transition-colors w-full"
               />
               <button
                 type="button"
-                className="px-4 py-2 text-sm font-medium text-white bg-brand-rose hover:bg-brand-rose/90 rounded-md sm:rounded-r-md sm:rounded-l-none transition-colors duration-200 flex-shrink-0"
+                className="px-4 py-2 text-sm font-medium text-brand-charcoal bg-brand-gold hover:bg-brand-rose hover:text-white rounded-md sm:rounded-r-md sm:rounded-l-none transition-colors duration-200 flex-shrink-0"
               >
                 Subscribe
               </button>
@@ -134,7 +134,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-center">
           <p className="text-xs font-body text-gray-400 text-center">
-            © 2024 GG Fashion. All Rights Reserved.
+            © 2024 <span className="text-brand-gold mx-1 font-serif">✦</span> GG Fashion <span className="text-brand-gold mx-1 font-serif">✦</span>. All Rights Reserved.
           </p>
         </div>
       </div>

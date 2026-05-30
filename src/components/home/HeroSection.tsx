@@ -6,10 +6,18 @@ import { ShieldCheck, Truck, RotateCcw } from 'lucide-react';
 
 export default function HeroSection() {
   return (
-    <section className="relative min-h-screen lg:h-screen w-full bg-brand-cream overflow-hidden flex items-center">
+    <section className="relative min-h-screen lg:h-screen w-full bg-brand-cream overflow-hidden flex items-center bg-[radial-gradient(ellipse_at_top_left,_rgba(197,56,75,0.08)_0%,_transparent_60%)]">
       {/* Background decorations on left column */}
       <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-brand-rose/5 pointer-events-none" />
-      <div className="absolute top-1/4 left-1/3 w-3 h-3 rounded-full bg-brand-gold/30 pointer-events-none animate-pulse" />
+      
+      {/* Animated slowly rotating ring */}
+      <div className="absolute top-20 right-8 w-32 h-32 rounded-full border border-brand-rose/20 animate-[spin_20s_linear_infinite] pointer-events-none hidden md:block" />
+      
+      {/* Pulsing dot cluster */}
+      <div className="absolute top-1/4 left-1/3 w-1.5 h-1.5 rounded-full bg-brand-gold/40 pointer-events-none animate-pulse" style={{ animationDelay: '0ms' }} />
+      <div className="absolute top-[28%] left-[35%] w-1.5 h-1.5 rounded-full bg-brand-gold/40 pointer-events-none animate-pulse" style={{ animationDelay: '300ms' }} />
+      <div className="absolute top-[23%] left-[38%] w-1.5 h-1.5 rounded-full bg-brand-gold/40 pointer-events-none animate-pulse" style={{ animationDelay: '600ms' }} />
+      
       <div className="absolute bottom-1/4 left-10 w-2.5 h-2.5 rounded-full bg-brand-gold/25 pointer-events-none" />
 
       {/* Two-Column Layout */}
@@ -34,8 +42,15 @@ export default function HeroSection() {
             >
               Elegance
             </span>
+            
+            {/* Decorative Gold Line */}
+            <div 
+              className="w-12 h-px bg-brand-gold my-3 opacity-0 animate-fadeUp"
+              style={{ animationDelay: '220ms', animationFillMode: 'forwards' }}
+            />
+
             <span 
-              className="font-display font-bold text-6xl sm:text-7xl lg:text-8xl text-brand-rose leading-none mt-1 opacity-0 animate-fadeUp"
+              className="font-display font-bold text-6xl sm:text-7xl lg:text-8xl text-brand-rose leading-none opacity-0 animate-fadeUp"
               style={{ animationDelay: '300ms', animationFillMode: 'forwards' }}
             >
               Redefined.
@@ -55,9 +70,10 @@ export default function HeroSection() {
             className="mt-10 flex flex-wrap gap-6 items-center opacity-0 animate-fadeUp"
             style={{ animationDelay: '600ms', animationFillMode: 'forwards' }}
           >
+            {/* Primary button with shimmer sweep hover effect, glow shadows, and translate animation */}
             <Link 
               href="/search" 
-              className="bg-brand-rose text-white px-8 py-4 text-xs tracking-[0.2em] uppercase font-medium hover:bg-brand-charcoal transition-colors duration-300 shadow-md hover:shadow-lg"
+              className="relative overflow-hidden bg-brand-rose text-white px-8 py-4 text-xs tracking-[0.2em] uppercase font-medium shadow-lg shadow-brand-rose/30 hover:shadow-xl hover:shadow-brand-rose/40 hover:-translate-y-0.5 transition-all duration-300 before:absolute before:top-0 before:-left-[100%] before:w-1/2 before:h-full before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent hover:before:left-[100%] before:transition-all before:duration-1000 before:ease-in-out"
             >
               Shop Collection &rarr;
             </Link>
@@ -69,21 +85,27 @@ export default function HeroSection() {
             </Link>
           </div>
 
-          {/* Trust Badges */}
+          {/* Trust Badges separator and upgraded visual styling */}
           <div 
-            className="mt-16 flex flex-wrap gap-8 opacity-0 animate-fadeUp"
+            className="border-t border-gray-100 pt-8 mt-8 flex flex-wrap gap-8 opacity-0 animate-fadeUp"
             style={{ animationDelay: '750ms', animationFillMode: 'forwards' }}
           >
-            <div className="flex items-center gap-2 text-[10px] sm:text-xs text-gray-400 uppercase tracking-wide">
-              <ShieldCheck size={16} className="text-brand-gold" />
+            <div className="flex items-center gap-3 text-[10px] sm:text-xs text-gray-400 uppercase tracking-wide">
+              <div className="w-8 h-8 rounded-full bg-brand-rose/10 flex items-center justify-center">
+                <ShieldCheck size={16} className="text-brand-rose" />
+              </div>
               <span>Authentic Quality</span>
             </div>
-            <div className="flex items-center gap-2 text-[10px] sm:text-xs text-gray-400 uppercase tracking-wide">
-              <Truck size={16} className="text-brand-gold" />
+            <div className="flex items-center gap-3 text-[10px] sm:text-xs text-gray-400 uppercase tracking-wide">
+              <div className="w-8 h-8 rounded-full bg-brand-rose/10 flex items-center justify-center">
+                <Truck size={16} className="text-brand-rose" />
+              </div>
               <span>Express Delivery</span>
             </div>
-            <div className="flex items-center gap-2 text-[10px] sm:text-xs text-gray-400 uppercase tracking-wide">
-              <RotateCcw size={16} className="text-brand-gold" />
+            <div className="flex items-center gap-3 text-[10px] sm:text-xs text-gray-400 uppercase tracking-wide">
+              <div className="w-8 h-8 rounded-full bg-brand-rose/10 flex items-center justify-center">
+                <RotateCcw size={16} className="text-brand-rose" />
+              </div>
               <span>Easy Returns</span>
             </div>
           </div>
@@ -94,8 +116,12 @@ export default function HeroSection() {
           {/* Large decorative circle */}
           <div className="absolute inset-8 rounded-full border border-brand-rose/5 bg-brand-rose/5 pointer-events-none" />
 
-          {/* Main Image */}
+          {/* Main Image Container */}
           <div className="relative w-full h-full lg:h-[90%] lg:w-[85%] overflow-hidden shadow-2xl lg:rounded-3xl">
+            
+            {/* Decorative Gold Frame Overlay */}
+            <div className="absolute inset-4 rounded-2xl lg:rounded-3xl border border-brand-gold/30 pointer-events-none z-10" />
+
             <Image
               src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=800&q=80"
               alt="Indian woman in a designer saree"
@@ -105,18 +131,21 @@ export default function HeroSection() {
               className="object-cover object-top transition-transform duration-700 hover:scale-102"
             />
 
-            {/* Floating Stat Card */}
-            <div className="absolute bottom-8 left-8 bg-white/95 backdrop-blur-sm rounded-2xl px-5 py-4 shadow-xl flex flex-col border border-white/20 select-none animate-fadeUp" style={{ animationDelay: '900ms', animationFillMode: 'forwards' }}>
-              <span className="font-display text-2xl font-bold text-brand-charcoal flex items-center gap-0.5">
-                4.9<span className="text-brand-gold text-lg">&apos;</span>★
+            {/* Subtle Gradient Shadow Overlay at the bottom */}
+            <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-black/40 to-transparent pointer-events-none z-10" />
+
+            {/* Upgraded Floating Stat Card */}
+            <div className="absolute bottom-8 left-8 bg-white/95 backdrop-blur-sm rounded-2xl px-5 py-4 shadow-2xl shadow-black/10 border border-gray-100/50 flex flex-col select-none animate-fadeUp z-20" style={{ animationDelay: '900ms', animationFillMode: 'forwards' }}>
+              <span className="font-display text-3xl font-bold text-brand-rose flex items-center gap-0.5 leading-none">
+                4.9<span className="text-brand-gold text-xl">&apos;</span>★
               </span>
-              <span className="text-[10px] sm:text-xs text-gray-500 uppercase tracking-wider mt-0.5">
+              <span className="text-[10px] text-gray-500 uppercase tracking-wider mt-1.5 font-semibold">
                 50,000+ Happy Customers
               </span>
             </div>
 
-            {/* Floating NEW SS'25 Badge */}
-            <div className="absolute top-8 right-8 bg-brand-rose text-white rounded-full w-20 h-20 flex flex-col items-center justify-center shadow-lg border border-white/10 select-none animate-pulse">
+            {/* Upgraded Floating NEW SS'25 Badge with bouncing animation */}
+            <div className="absolute top-8 right-8 bg-brand-rose text-white rounded-full w-20 h-20 flex flex-col items-center justify-center shadow-lg shadow-brand-rose/40 border border-white/10 select-none animate-[bounce_3s_ease-in-out_infinite] z-20">
               <span className="text-[9px] tracking-widest font-semibold uppercase opacity-90">New</span>
               <span className="font-display text-base font-bold tracking-wide mt-0.5">SS&apos;25</span>
             </div>

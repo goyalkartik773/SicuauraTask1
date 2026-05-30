@@ -41,18 +41,19 @@ export default function Pagination({
   const { pages, showStartEllipsis, showEndEllipsis } = getPageNumbers();
 
   return (
-    <div className="flex justify-center items-center gap-1 sm:gap-2 mt-12 select-none">
+    <div className="flex justify-center items-center gap-1.5 sm:gap-2.5 border-t border-gray-100 pt-10 mt-10 select-none">
       {/* Previous Button */}
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
         aria-label="Previous Page"
         className={cn(
-          'w-10 h-10 rounded-full flex items-center justify-center border border-gray-100 bg-white hover:bg-gray-50 active:bg-gray-100 text-brand-charcoal transition-all shadow-sm',
-          currentPage === 1 && 'opacity-40 cursor-not-allowed hover:bg-white active:bg-white'
+          'px-5 py-2 rounded-full border border-gray-200 bg-white hover:border-brand-rose hover:text-brand-rose text-brand-charcoal flex items-center gap-2 text-sm transition-all shadow-xs',
+          currentPage === 1 && 'opacity-40 cursor-not-allowed hover:border-gray-200 hover:text-brand-charcoal hover:bg-white'
         )}
       >
-        <ChevronLeft size={16} />
+        <ChevronLeft size={14} />
+        <span>Prev</span>
       </button>
 
       {/* Start Ellipsis */}
@@ -77,9 +78,9 @@ export default function Pagination({
             onClick={() => onPageChange(page)}
             aria-current={isCurrent ? 'page' : undefined}
             className={cn(
-              'w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold transition-all shadow-sm',
+              'w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold transition-all shadow-xs',
               isCurrent
-                ? 'bg-brand-rose text-white shadow-md'
+                ? 'bg-brand-rose text-white shadow-lg shadow-brand-rose/30'
                 : 'bg-white border border-gray-100 text-gray-600 hover:bg-gray-50 hover:text-brand-charcoal'
             )}
           >
@@ -107,11 +108,12 @@ export default function Pagination({
         disabled={currentPage === totalPages}
         aria-label="Next Page"
         className={cn(
-          'w-10 h-10 rounded-full flex items-center justify-center border border-gray-100 bg-white hover:bg-gray-50 active:bg-gray-100 text-brand-charcoal transition-all shadow-sm',
-          currentPage === totalPages && 'opacity-40 cursor-not-allowed hover:bg-white active:bg-white'
+          'px-5 py-2 rounded-full border border-gray-200 bg-white hover:border-brand-rose hover:text-brand-rose text-brand-charcoal flex items-center gap-2 text-sm transition-all shadow-xs',
+          currentPage === totalPages && 'opacity-40 cursor-not-allowed hover:border-gray-200 hover:text-brand-charcoal hover:bg-white'
         )}
       >
-        <ChevronRight size={16} />
+        <span>Next</span>
+        <ChevronRight size={14} />
       </button>
     </div>
   );

@@ -37,8 +37,16 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
     fetchCategories(),
   ])
 
+  const query = searchParams.q || ''
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="bg-gradient-to-r from-brand-charcoal to-[#2a1a1f] text-white py-10 px-6 sm:px-8 mb-8 rounded-2xl shadow-sm">
+        <p className="text-xs tracking-[0.3em] text-brand-gold uppercase mb-2">✦ Discover</p>
+        <h1 className="font-display text-3xl sm:text-4xl font-light select-none">
+          {query ? <>Results for <span className="font-display italic text-brand-rose font-medium">&quot;{query}&quot;</span></> : 'Our Collection'}
+        </h1>
+      </div>
       <SearchResults
         initialProducts={products}
         initialTotal={total}

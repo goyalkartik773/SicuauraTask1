@@ -27,6 +27,7 @@ export default function SearchResults({
   // Internal state of filters, pre-populated from URL queries via page props
   const [filters, setFilters] = useState<Partial<FilterState>>(initialFilters);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
   // Sync internal state if URL parameters change from outside (e.g. navbar searches or back button)
   useEffect(() => {
@@ -103,10 +104,12 @@ export default function SearchResults({
           sortBy={filters.sortBy || 'default'}
           onSortChange={(sort) => handleFilterChange({ sortBy: sort })}
           onFilterToggle={() => setMobileFiltersOpen(true)}
+          viewMode={viewMode}
+          onViewModeChange={setViewMode}
         />
 
         {/* Catalog Grid */}
-        <ProductGrid products={initialProducts} />
+        <ProductGrid products={initialProducts} viewMode={viewMode} />
 
         {/* Navigation Pagination chevrons */}
         {totalPages > 1 && (

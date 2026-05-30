@@ -62,20 +62,41 @@ export default function FilterSidebar({ filters, onChange, onClose }: FilterSide
     { label: 'Top Rated', value: 'rating' as SortOption },
   ];
 
+  // Calculate active filter count for the badge next to the Filters header
+  const getActiveFilterCount = () => {
+    let count = 0;
+    if (filters.q && filters.q.trim() !== '') count++;
+    if (activeCategory && activeCategory !== 'all' && activeCategory !== '') count++;
+    if (minPrice > 0 || maxPrice < 5000) count++;
+    if (activeSort && activeSort !== 'default') count++;
+    return count;
+  };
+  const activeFilterCount = getActiveFilterCount();
+
   return (
-    <aside className="w-full h-full flex flex-col bg-white">
+    <aside className="w-full h-full flex flex-col bg-white border-r border-gray-100 pr-8">
       {/* Header Row */}
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="font-display text-xl font-semibold text-brand-charcoal">Filters</h2>
-        {onClose && (
-          <button
-            onClick={onClose}
-            aria-label="Close filters"
-            className="lg:hidden p-1.5 hover:bg-gray-100 rounded-full text-brand-charcoal"
-          >
-            <X size={20} />
-          </button>
-        )}
+      <div className="flex flex-col mb-6">
+        <div className="flex justify-between items-center">
+          <div className="flex items-center gap-2">
+            <h2 className="font-display text-2xl italic font-light text-brand-charcoal">Filters</h2>
+            {activeFilterCount > 0 && (
+              <span className="bg-brand-rose text-white w-5 h-5 rounded-full text-xs font-bold flex items-center justify-center animate-[heartPop_0.3s_ease-out]">
+                {activeFilterCount}
+              </span>
+            )}
+          </div>
+          {onClose && (
+            <button
+              onClick={onClose}
+              aria-label="Close filters"
+              className="lg:hidden p-1.5 hover:bg-gray-100 rounded-full text-brand-charcoal"
+            >
+              <X size={20} />
+            </button>
+          )}
+        </div>
+        <div className="w-8 h-0.5 bg-brand-gold mt-1" />
       </div>
 
       {/* Clear All Link */}
@@ -94,10 +115,10 @@ export default function FilterSidebar({ filters, onChange, onClose }: FilterSide
       <div className="flex-1 overflow-y-auto pr-1 space-y-8 scrollbar-hide">
         {/* Section 1: Categories */}
         <div>
-          <h3 className="text-xs tracking-widest text-gray-400 uppercase font-semibold mb-3">
+          <h3 className="text-[10px] tracking-[0.3em] text-gray-400 uppercase font-semibold mb-4">
             Category
           </h3>
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-1.5">
             {CATEGORIES.map((cat) => {
               // Highlight 'All Collection' (all) if activeCategory is empty ('') or 'all'
               const isSelected =
@@ -108,12 +129,13 @@ export default function FilterSidebar({ filters, onChange, onClose }: FilterSide
                   key={cat.slug}
                   onClick={() => onChange({ category: cat.slug === 'all' ? '' : cat.slug, page: 1 })}
                   className={cn(
-                    'w-full text-left px-3 py-2.5 rounded-lg text-sm transition-colors duration-200 font-body font-medium',
+                    'w-full text-left px-3 py-2 rounded-lg text-xs tracking-wide transition-all duration-300 font-body flex items-center',
                     isSelected
-                      ? 'bg-brand-rose text-white shadow-sm'
-                      : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
+                      ? 'bg-brand-rose/10 border border-brand-rose text-brand-rose font-medium'
+                      : 'bg-transparent border border-gray-100 text-gray-600 hover:border-brand-rose/40 hover:bg-brand-rose/5 hover:text-brand-rose'
                   )}
                 >
+                  {isSelected && <span className="mr-1.5 text-brand-rose">•</span>}
                   {cat.name}
                 </button>
               );
@@ -123,11 +145,22 @@ export default function FilterSidebar({ filters, onChange, onClose }: FilterSide
 
         {/* Section 2: Price Range */}
         <div>
-          <h3 className="text-xs tracking-widest text-gray-400 uppercase font-semibold mb-3">
+          <h3 className="text-[10px] tracking-[0.3em] text-gray-400 uppercase font-semibold mb-4">
             Price Range
           </h3>
-          <div className="text-sm font-body font-medium text-gray-600 mb-4">
+          <div className="text-sm font-body font-medium text-gray-600 mb-3">
             ₹{localMinPrice.toLocaleString('en-IN')} &ndash; ₹{localMaxPrice.toLocaleString('en-IN')}
+          </div>
+
+          {/* Thin colored track bar visualizer */}
+          <div className="relative w-full h-1 bg-gray-100 rounded-full mb-6">
+            <div
+              className="absolute bg-brand-rose/30 h-1 rounded-full"
+              style={{
+                left: `${(localMinPrice / 5000) * 100}%`,
+                width: `${((localMaxPrice - localMinPrice) / 5000) * 100}%`,
+              }}
+            />
           </div>
           
           <div className="space-y-4">
@@ -183,10 +216,10 @@ export default function FilterSidebar({ filters, onChange, onClose }: FilterSide
 
         {/* Section 3: Sort Options */}
         <div>
-          <h3 className="text-xs tracking-widest text-gray-400 uppercase font-semibold mb-3">
+          <h3 className="text-[10px] tracking-[0.3em] text-gray-400 uppercase font-semibold mb-4">
             Sort By
           </h3>
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-1.5">
             {sortOptions.map((opt) => {
               const isSelected = activeSort === opt.value;
               return (
@@ -194,12 +227,13 @@ export default function FilterSidebar({ filters, onChange, onClose }: FilterSide
                   key={opt.value}
                   onClick={() => onChange({ sortBy: opt.value, page: 1 })}
                   className={cn(
-                    'w-full text-left px-3 py-2.5 rounded-lg text-sm transition-colors duration-200 font-body font-medium',
+                    'w-full text-left px-3 py-2 rounded-lg text-xs tracking-wide transition-all duration-300 font-body flex items-center',
                     isSelected
-                      ? 'bg-brand-rose text-white shadow-sm'
-                      : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
+                      ? 'bg-brand-rose/10 border border-brand-rose text-brand-rose font-medium'
+                      : 'bg-transparent border border-gray-100 text-gray-600 hover:border-brand-rose/40 hover:bg-brand-rose/5 hover:text-brand-rose'
                   )}
                 >
+                  {isSelected && <span className="mr-1.5 text-brand-rose">•</span>}
                   {opt.label}
                 </button>
               );

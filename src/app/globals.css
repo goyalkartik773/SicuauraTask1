@@ -42,3 +42,38 @@
   outline: 2px solid #C5384B;
   outline-offset: 2px;
 }
+
+/* Heartbeat pop animation */
+@keyframes heartPop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.4); }
+  100% { transform: scale(1); }
+}
+
+/* Hide scrollbar utility */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Smooth page transitions */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.3s;
+}
+
+/* Selection color */
+::selection {
+  background-color: #C5384B;
+  color: white;
+}
+
+/* Custom scrollbar for desktop */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #FAF7F2; }
+::-webkit-scrollbar-thumb { background: #D4A853; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #C5384B; }
+

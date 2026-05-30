@@ -1,4 +1,5 @@
 import { fetchProducts, fetchCategories } from '@/lib/api'
+import SearchResults from '@/components/search/SearchResults'
 import type { FilterState } from '@/types'
 
 interface SearchPageProps {
@@ -36,30 +37,14 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
     fetchCategories(),
   ])
 
-  const totalPages = Math.ceil(total / 12)
-
-  // Reference variables to satisfy strict ESLint unused variables checks
-  const activeCategoriesCount = categories.length
-  const pageDetails = `Page 1 of ${totalPages}`
-
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      {/* Will add SearchResults client component in next commit */}
-      <div className="flex gap-8">
-        <aside className="hidden lg:block w-64 flex-shrink-0">
-          <p className="font-display text-xl mb-4">Filters</p>
-          <span className="hidden">{activeCategoriesCount} {pageDetails}</span>
-          {/* Sidebar placeholder */}
-        </aside>
-        <main className="flex-1">
-          <p className="text-sm text-gray-400 mb-6">{total} products found</p>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {products.map((product) => (
-              <div key={product.id} className="bg-white rounded-xl p-4 text-sm">{product.title}</div>
-            ))}
-          </div>
-        </main>
-      </div>
+      <SearchResults
+        initialProducts={products}
+        initialTotal={total}
+        initialFilters={filters}
+        categories={categories}
+      />
     </div>
   )
 }

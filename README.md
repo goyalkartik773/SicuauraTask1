@@ -7,6 +7,26 @@ A production-grade fashion e-commerce storefront built with Next.js 14, TypeScri
 
 ---
 
+## Screenshots & SEO Scores
+
+| Page | SEO Score |
+|---|---|
+| Homepage `/` | 100 |
+| Search `/search` | 100 |
+| Category Filter `/search?category=beauty` | 100 |
+| Product Detail `/product/1` | 100 |
+| Product Detail `/product/5` | 100 |
+| Cart `/cart` | 100 |
+
+![SEO Score - Homepage](screenshots/seo1.png)
+![SEO Score - Search Page](screenshots/seo2.png)
+![SEO Score - Category Filter](screenshots/seo3.png)
+![SEO Score - Product Detail 1](screenshots/seo4.png)
+![SEO Score - Product Detail 2](screenshots/seo5.png)
+![SEO Score - Cart Page](screenshots/seo6.png)
+
+---
+
 ## Tech Stack
 
 | Layer | Choice | Reason |
@@ -88,7 +108,9 @@ Every layout is mobile-first. Breakpoints tested at 320px, 375px, 768px, 1024px,
 - OpenGraph tags in root layout
 - Semantic HTML throughout — `<nav>`, `<main>`, `<aside>`, `<article>`
 - Skip-to-content link for screen readers
-- `robots.txt` and `sitemap.xml` configured
+- JSON-LD structured data — Organization, Product, BreadcrumbList, WebSite schemas
+- XML Sitemap auto-generated at `/sitemap.xml`
+- Canonical URLs on every page
 
 ---
 
@@ -101,6 +123,7 @@ src/
 │   ├── layout.tsx            # Root layout, fonts, metadata
 │   ├── loading.tsx           # Global skeleton loader
 │   ├── globals.css           # Tailwind base + design tokens
+│   ├── sitemap.ts            # Auto-generated XML sitemap
 │   ├── search/
 │   │   ├── page.tsx          # Search results (server, reads searchParams)
 │   │   └── loading.tsx       # Search skeleton
@@ -114,6 +137,7 @@ src/
 │   ├── product/              # ProductDetailClient
 │   ├── search/               # FilterSidebar, SearchHeader, SearchResults, Pagination
 │   ├── cart/                 # CartPageClient
+│   ├── seo/                  # JsonLd structured data components
 │   └── ui/                   # ProductCard, SkeletonCard, ProductGrid, StarRating
 ├── context/
 │   └── CartContext.tsx       # useReducer cart + localStorage persistence
@@ -121,6 +145,7 @@ src/
 │   └── useDebounce.ts        # Debounce hook for search input
 ├── lib/
 │   ├── api.ts                # All dummyjson fetch functions
+│   ├── config.ts             # Site URL and global config
 │   ├── constants.ts          # Categories, price range, sort options
 │   ├── imageMap.ts           # HD Unsplash image mapping per category
 │   └── utils.ts              # cn(), formatPrice(), getDiscountedPrice(), truncate()
@@ -161,28 +186,7 @@ npx tsc --noEmit # TypeScript check
 
 - **Authentication** — NextAuth.js with Google/email login, persistent wishlist per user
 - **Real checkout** — Stripe integration for payment processing
-- **Product reviews** — POST endpoint to save reviews, optimistic UI updates
 - **Infinite scroll** — replace pagination with intersection observer on search page
-- **Wishlist page** — dedicated `/wishlist` route pulling from localStorage or user account
-- **Advanced filters** — rating filter, in-stock only toggle, multi-select categories
 - **Unit tests** — Vitest + Testing Library for utility functions and key components
 - **E2E tests** — Playwright for critical user flows (search → product → cart → checkout)
-
----
-
-## Performance
-
-Measured on Vercel production deployment:
-
-| Metric | Score |
-|---|---|
-| Performance | 90+ |
-| Accessibility | 95+ |
-| Best Practices | 100 |
-| SEO | 100 |
-
-*(Run Lighthouse on the live URL to verify)*
-
-**Configured deployment URL:**
-- Production URL: `https://ggaligance.vercel.app`
-- GitHub repository: `https://github.com/ggaligance/gg-fashion`
+- **Wishlist page** — dedicated `/wishlist` route pulling from localStorage or user account

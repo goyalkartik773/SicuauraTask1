@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { CartProvider } from "@/context/CartContext";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -57,6 +58,7 @@ export default function RootLayout({
             </main>
             <Footer />
           </div>
+          <Analytics />
         </CartProvider>
       </body>
     </html>

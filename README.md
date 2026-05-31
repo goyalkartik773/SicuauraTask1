@@ -3,7 +3,7 @@
 A production-grade fashion e-commerce storefront built with Next.js 14, TypeScript, and Tailwind CSS.
 
 **Live Demo:** [ggaligance.vercel.app](https://ggaligance.vercel.app)  
-**GitHub:** [github.com/ggaligance/gg-fashion](https://github.com/ggaligance/gg-fashion)
+**GitHub:** [github.com/goyalkartik773/SicuauraTask1](https://github.com/goyalkartik773/SicuauraTask1)
 
 ---
 

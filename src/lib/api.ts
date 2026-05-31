@@ -1,21 +1,16 @@
 import { Product, Category, FilterState, ProductsApiResponse } from "../types";
 import { PRODUCTS_PER_PAGE } from "./constants";
 
-const BASE_URL = 'https://dummyjson.com';
+async function apiFetch<T>(path: string): Promise<T> {
+  const res = await fetch(`https://dummyjson.com${path}`, {
+    next: { revalidate: 60 },
+  });
+  if (!res.ok) throw new Error(`API request failed for path: ${path} with status: ${res.status}`);
+  return res.json();
+}
 
-/**
- * Fetch all product categories from DummyJSON.
- * Standardizes both new (object array) and older (string array) API versions.
- */
 export async function fetchCategories(): Promise<Category[]> {
-  const url = `${BASE_URL}/products/categories`;
-  const res = await fetch(url, { next: { revalidate: 60 } });
-  
-  if (!res.ok) {
-    throw new Error(`Failed to fetch categories: ${res.status} ${res.statusText}`);
-  }
-  
-  const data = await res.json();
+  const data = await apiFetch<unknown>('/products/categories');
   
   if (Array.isArray(data)) {
     return data.map((cat: unknown) => {
@@ -26,25 +21,21 @@ export async function fetchCategories(): Promise<Category[]> {
             .split('-')
             .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
             .join(' '),
-          url: `${BASE_URL}/products/category/${cat}`
+          url: `https://dummyjson.com/products/category/${cat}`
         };
       }
       const obj = cat as { slug?: string; name?: string; url?: string };
       return {
         slug: obj.slug || '',
         name: obj.name || '',
-        url: obj.url || `${BASE_URL}/products/category/${obj.slug || ''}`
+        url: obj.url || `https://dummyjson.com/products/category/${obj.slug || ''}`
       };
     });
   }
   
-  throw new Error('Invalid categories response format');
+  throw new Error('Invalid categories response format from API');
 }
 
-/**
- * Fetch products using optional category, search query, price ranges, and sort options.
- * Utilizes in-memory filters for robust combined query + category search and price-bounding (INR conversion).
- */
 export async function fetchProducts(filters?: Partial<FilterState>): Promise<ProductsApiResponse> {
   const q = filters?.q || '';
   const category = filters?.category || 'all';
@@ -53,50 +44,36 @@ export async function fetchProducts(filters?: Partial<FilterState>): Promise<Pro
   const sortBy = filters?.sortBy || 'default';
   const page = filters?.page || 1;
 
-  // We fetch matching items from the appropriate category or search endpoint.
-  // Using limit=0 retrieves all items matching the category or search, allowing us
-  // to apply correct price ranges and sorting before paginating.
-  let url = `${BASE_URL}/products`;
-  
+  let path = '/products';
   if (category !== 'all') {
-    url = `${BASE_URL}/products/category/${category}`;
+    path = `/products/category/${category}`;
   } else if (q) {
-    url = `${BASE_URL}/products/search`;
+    path = `/products/search`;
   }
   
-  const urlObj = new URL(url);
-  urlObj.searchParams.set('limit', '0');
-  
+  const params = new URLSearchParams();
+  params.set('limit', '0');
   if (q && category === 'all') {
-    urlObj.searchParams.set('q', q);
+    params.set('q', q);
   }
   
-  const res = await fetch(urlObj.toString(), { next: { revalidate: 60 } });
+  const data = await apiFetch<{ products: Product[] }>(`${path}?${params.toString()}`);
+  let products = data.products;
   
-  if (!res.ok) {
-    throw new Error(`Failed to fetch products: ${res.status} ${res.statusText}`);
-  }
-  
-  const data = await res.json();
-  let products = data.products as Product[];
-  
-  // 1. If a category is selected and a query is also provided, filter by search query in-memory
   if (category !== 'all' && q) {
     const searchLower = q.toLowerCase();
     products = products.filter(p => 
       p.title.toLowerCase().includes(searchLower) || 
       p.description.toLowerCase().includes(searchLower) ||
-      p.brand?.toLowerCase().includes(searchLower)
+      (p.brand && p.brand.toLowerCase().includes(searchLower))
     );
   }
   
-  // 2. Filter by price range (INR conversion)
   products = products.filter(p => {
     const priceINR = p.price * 83;
     return priceINR >= minPrice && priceINR <= maxPrice;
   });
   
-  // 3. Sort products
   if (sortBy === 'price-asc') {
     products.sort((a, b) => a.price - b.price);
   } else if (sortBy === 'price-desc') {
@@ -105,7 +82,6 @@ export async function fetchProducts(filters?: Partial<FilterState>): Promise<Pro
     products.sort((a, b) => b.rating - a.rating);
   }
   
-  // 4. Paginate the resulting collection
   const total = products.length;
   const skip = (page - 1) * PRODUCTS_PER_PAGE;
   const paginatedProducts = products.slice(skip, skip + PRODUCTS_PER_PAGE);
@@ -118,31 +94,11 @@ export async function fetchProducts(filters?: Partial<FilterState>): Promise<Pro
   };
 }
 
-/**
- * Fetch a single product by its unique ID.
- */
 export async function fetchProductById(id: number): Promise<Product> {
-  const url = `${BASE_URL}/products/${id}`;
-  const res = await fetch(url, { next: { revalidate: 60 } });
-  
-  if (!res.ok) {
-    throw new Error(`Failed to fetch product by ID ${id}: ${res.status} ${res.statusText}`);
-  }
-  
-  return await res.json();
+  return apiFetch<Product>(`/products/${id}`);
 }
 
-/**
- * Fetch featured products (limits output to 8 items).
- */
 export async function fetchFeaturedProducts(): Promise<Product[]> {
-  const url = `${BASE_URL}/products?limit=8`;
-  const res = await fetch(url, { next: { revalidate: 60 } });
-  
-  if (!res.ok) {
-    throw new Error(`Failed to fetch featured products: ${res.status} ${res.statusText}`);
-  }
-  
-  const data = await res.json();
-  return data.products as Product[];
+  const data = await apiFetch<{ products: Product[] }>('/products?limit=8');
+  return data.products;
 }

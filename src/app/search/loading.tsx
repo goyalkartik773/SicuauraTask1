@@ -2,7 +2,7 @@ import ProductGrid from '@/components/ui/ProductGrid'
 
 export default function Loading() {
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:max-w-screen-xl 2xl:max-w-screen-2xl py-8 animate-fadeIn">
       <div className="flex gap-8">
         {/* Sidebar skeleton */}
         <div className="hidden lg:block w-64 flex-shrink-0">

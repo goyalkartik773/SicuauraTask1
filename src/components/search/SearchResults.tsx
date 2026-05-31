@@ -24,38 +24,37 @@ export default function SearchResults({
 }: SearchResultsProps) {
   const router = useRouter();
 
-  // Internal state of filters, pre-populated from URL queries via page props
   const [filters, setFilters] = useState<Partial<FilterState>>(initialFilters);
-  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState<boolean>(false);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
-  // Sync internal state if URL parameters change from outside (e.g. navbar searches or back button)
   useEffect(() => {
     setFilters(initialFilters);
   }, [initialFilters]);
 
-  // URL State Sync effect: updates URL query params on filter change
   useEffect(() => {
-    const params = new URLSearchParams();
-    
-    if (filters.q) params.set('q', filters.q);
-    if (filters.category && filters.category !== 'all') params.set('category', filters.category);
-    if (filters.minPrice !== undefined && filters.minPrice > 0) params.set('minPrice', String(filters.minPrice));
-    if (filters.maxPrice !== undefined && filters.maxPrice < 5000) params.set('maxPrice', String(filters.maxPrice));
-    if (filters.sortBy && filters.sortBy !== 'default') params.set('sortBy', filters.sortBy);
-    if (filters.page && filters.page > 1) params.set('page', String(filters.page));
+    const timer = setTimeout(() => {
+      const params = new URLSearchParams();
+      
+      if (filters.q) params.set('q', filters.q);
+      if (filters.category && filters.category !== 'all') params.set('category', filters.category);
+      if (filters.minPrice !== undefined && filters.minPrice > 0) params.set('minPrice', String(filters.minPrice));
+      if (filters.maxPrice !== undefined && filters.maxPrice < 5000) params.set('maxPrice', String(filters.maxPrice));
+      if (filters.sortBy && filters.sortBy !== 'default') params.set('sortBy', filters.sortBy);
+      if (filters.page && filters.page > 1) params.set('page', String(filters.page));
 
-    const queryStr = params.toString();
-    const targetUrl = queryStr ? `/search?${queryStr}` : '/search';
-    
-    router.push(targetUrl, { scroll: false });
+      const queryStr = params.toString();
+      const targetUrl = queryStr ? `/search?${queryStr}` : '/search';
+      
+      router.push(targetUrl, { scroll: false });
+    }, 300);
+
+    return () => clearTimeout(timer);
   }, [filters, router]);
 
-  // Handler for merging filter state updates and resetting page index where required
   const handleFilterChange = (updates: Partial<FilterState>) => {
     setFilters((prev) => {
       const nextFilters = { ...prev, ...updates };
-      // If we are changing filters other than page itself, reset page back to page 1
       if (!updates.hasOwnProperty('page')) {
         nextFilters.page = 1;
       }
@@ -66,27 +65,22 @@ export default function SearchResults({
   const totalPages = Math.ceil(initialTotal / PRODUCTS_PER_PAGE);
 
   return (
-    <div className="flex gap-8">
-      {/* Hidden element to satisfy ESLint unused categories prop rule */}
+    <div className="flex gap-8 max-w-7xl mx-auto xl:max-w-screen-xl 2xl:max-w-screen-2xl px-4 sm:px-6 lg:px-8">
       <span className="hidden">{categories.length}</span>
-      {/* Desktop Sidebar Layout */}
-      <div className="hidden lg:block w-64 flex-shrink-0">
+      <div className="hidden lg:block w-56 xl:w-64 flex-shrink-0">
         <FilterSidebar
           filters={filters as FilterState}
           onChange={handleFilterChange}
         />
       </div>
 
-      {/* Mobile Drawer Overlay and Sidebar Drawer */}
       {mobileFiltersOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden">
-          {/* Black Translucent Backdrop */}
+        <div className="fixed inset-0 z-50 lg:hidden flex">
           <div
-            className="absolute inset-0 bg-black/50 backdrop-blur-xs transition-opacity duration-300"
+            className="fixed inset-0 bg-black/50 z-40 transition-opacity animate-fadeIn"
             onClick={() => setMobileFiltersOpen(false)}
           />
-          {/* Left Sliding Sidebar Sheet */}
-          <div className="absolute left-0 top-0 h-full w-80 bg-white p-6 overflow-y-auto shadow-2xl animate-slideIn flex flex-col">
+          <div className="fixed inset-y-0 left-0 w-[85vw] max-w-sm bg-white z-50 overflow-y-auto p-6 shadow-2xl animate-slideIn flex flex-col">
             <FilterSidebar
               filters={filters as FilterState}
               onChange={handleFilterChange}
@@ -96,7 +90,6 @@ export default function SearchResults({
         </div>
       )}
 
-      {/* Main Results Display */}
       <div className="flex-1 min-w-0">
         <SearchHeader
           query={filters.q || ''}
@@ -108,10 +101,8 @@ export default function SearchResults({
           onViewModeChange={setViewMode}
         />
 
-        {/* Catalog Grid */}
         <ProductGrid products={initialProducts} viewMode={viewMode} />
 
-        {/* Navigation Pagination chevrons */}
         {totalPages > 1 && (
           <Pagination
             currentPage={filters.page || 1}

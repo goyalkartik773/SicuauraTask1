@@ -1,3 +1,5 @@
+import { Product } from '../types';
+
 const CATEGORY_IMAGES: Record<string, string[]> = {
   beauty: [
     'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&q=90',
@@ -272,45 +274,28 @@ const FALLBACK_IMAGES = [
   'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=800&q=90',
   'https://images.unsplash.com/photo-1467043237213-65f2da53396f?w=800&q=90',
 ]
-export function getProductImage(product: {
-  id: number
-  category: string
-  thumbnail?: string
-}): string {
-  // Use category-based images first
-  const images = CATEGORY_IMAGES[product.category] || FALLBACK_IMAGES
-  const categoryImage = images[product.id % images.length]
+
+export function getProductImage(product: Partial<Product> & { id: number; category: string }): string {
+  const images = CATEGORY_IMAGES[product.category] || FALLBACK_IMAGES;
+  const categoryImage = images[product.id % images.length];
   
-  // Fallback to API thumbnail if needed
-  if (!categoryImage || categoryImage === FALLBACK_IMAGES[0]) {
-    if (product.thumbnail && product.thumbnail.startsWith('http')) {
-      return product.thumbnail
-    }
+  if ((!categoryImage || categoryImage === FALLBACK_IMAGES[0]) && product.thumbnail && product.thumbnail.startsWith('http')) {
+    return product.thumbnail;
   }
   
-  return categoryImage
+  return categoryImage;
 }
 
-export function getProductGallery(product: {
-  id: number
-  category: string
-  images?: string[]
-  thumbnail?: string
-}): string[] {
-  // Use category-based images first
-  const images = CATEGORY_IMAGES[product.category] || FALLBACK_IMAGES
-  const categoryGallery = Array.from({ length: 4 }, (_, i) =>
-    images[(product.id + i) % images.length]
-  )
+export function getProductGallery(product: Partial<Product> & { id: number; category: string }): string[] {
+  const images = CATEGORY_IMAGES[product.category] || FALLBACK_IMAGES;
+  const categoryGallery = Array.from({ length: 4 }, (_, i) => images[(product.id + i) % images.length]);
   
-  // Fallback to API images only if category images aren't available
   if (product.images && Array.isArray(product.images) && product.images.length > 0) {
-    const apiImages = product.images.filter((img: string) => img && img.startsWith('http')).slice(0, 4)
-    if (apiImages.length === 0) {
-      return categoryGallery
+    const apiImages = product.images.filter((img: string) => img && img.startsWith('http')).slice(0, 4);
+    if (apiImages.length > 0) {
+      return apiImages;
     }
-    return apiImages
   }
   
-  return categoryGallery
+  return categoryGallery;
 }

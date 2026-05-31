@@ -8,15 +8,14 @@ interface NewArrivalsSectionProps {
 
 export default function NewArrivalsSection({ products }: NewArrivalsSectionProps) {
   return (
-    <section className="bg-gradient-to-b from-brand-cream to-white py-20 px-4 md:px-8 border-b border-gray-100">
-      <div className="max-w-7xl mx-auto w-full">
-        {/* Header Row */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-10 select-none">
+    <section className="bg-gradient-to-b from-brand-cream to-white py-10 md:py-20 px-4 sm:px-6 lg:px-8 xl:max-w-screen-xl 2xl:max-w-screen-2xl mx-auto border-b border-gray-100">
+      <div className="max-w-7xl mx-auto xl:max-w-screen-xl 2xl:max-w-screen-2xl w-full">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-2 md:gap-4 mb-10 select-none">
           <div>
-            <span className="text-xs tracking-[0.2em] text-brand-gold font-medium uppercase mb-1 block">
+            <span className="text-xs tracking-[0.2em] text-brand-gold font-medium uppercase mb-1 hidden md:block">
               ✦ Fresh Drops ✦
             </span>
-            <h2 className="font-display text-3xl sm:text-4xl font-semibold text-brand-charcoal">
+            <h2 className="font-display text-2xl md:text-3xl lg:text-4xl font-semibold text-brand-charcoal">
               New <span className="font-display italic font-light text-brand-rose">Arrivals</span>
             </h2>
           </div>
@@ -24,15 +23,16 @@ export default function NewArrivalsSection({ products }: NewArrivalsSectionProps
             href="/search"
             className="text-xs sm:text-sm font-semibold tracking-wider text-brand-rose hover:text-brand-rose/90 transition-colors duration-200 uppercase flex items-center gap-1 group underline-offset-4"
           >
-            <span>View All Products</span>
+            <span>
+              <span className="md:hidden">VIEW ALL</span>
+              <span className="hidden md:inline">VIEW ALL PRODUCTS</span>
+            </span>
             <span className="inline-block transition-transform duration-300 group-hover:translate-x-1 ml-1">→</span>
           </Link>
         </div>
 
-        {/* Product Grid Render */}
         <ProductGrid products={products} />
 
-        {/* E-Commerce elegant Load More style divider */}
         <div className="relative flex justify-center items-center mt-16 pt-4">
           <div className="absolute inset-0 flex items-center" aria-hidden="true">
             <div className="w-full border-t border-gray-200"></div>

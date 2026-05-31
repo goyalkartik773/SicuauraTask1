@@ -16,6 +16,13 @@ interface SearchHeaderProps {
   onViewModeChange: (mode: 'grid' | 'list') => void;
 }
 
+const SORT_OPTIONS = [
+  { label: 'Default Sorting', value: 'default' as SortOption },
+  { label: 'Price: Low to High', value: 'price-asc' as SortOption },
+  { label: 'Price: High to Low', value: 'price-desc' as SortOption },
+  { label: 'Top Rated', value: 'rating' as SortOption },
+];
+
 export default function SearchHeader({
   query,
   total,
@@ -38,18 +45,12 @@ export default function SearchHeader({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const sortOptions = [
-    { label: 'Default Sorting', value: 'default' as SortOption },
-    { label: 'Price: Low to High', value: 'price-asc' as SortOption },
-    { label: 'Price: High to Low', value: 'price-desc' as SortOption },
-    { label: 'Top Rated', value: 'rating' as SortOption },
-  ];
-
-  const currentOption = sortOptions.find((opt) => opt.value === sortBy) || sortOptions[0];
+  const currentOption = SORT_OPTIONS.find((opt) => opt.value === sortBy) || SORT_OPTIONS[0];
+  const isGridView = viewMode === 'grid';
+  const isListView = viewMode === 'list';
 
   return (
     <div className="flex flex-col mb-8 select-none">
-      {/* Breadcrumb Navigation above heading */}
       <div className="flex items-center gap-1.5 text-xs text-gray-400 mb-2.5 font-body">
         <Link href="/" className="hover:text-brand-rose transition-colors duration-200">
           Home
@@ -69,7 +70,6 @@ export default function SearchHeader({
       </div>
 
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 w-full">
-        {/* Left side: Results header and count pill */}
         <div className="flex items-center gap-3 flex-wrap">
           {query ? (
             <h1 className="font-display text-2xl font-semibold text-brand-charcoal">
@@ -85,16 +85,14 @@ export default function SearchHeader({
           </span>
         </div>
 
-        {/* Right side: view toggle, mobile filter toggle & sort select */}
         <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
-          {/* Grid / List View Toggle */}
           <div className="flex items-center border border-gray-200 rounded-lg p-0.5 bg-white shadow-xs">
             <button
               onClick={() => onViewModeChange('grid')}
               aria-label="Grid View"
               className={cn(
                 'p-1.5 rounded-md transition-all duration-200',
-                viewMode === 'grid'
+                isGridView
                   ? 'bg-brand-rose/10 text-brand-rose'
                   : 'text-gray-400 hover:text-brand-charcoal'
               )}
@@ -106,7 +104,7 @@ export default function SearchHeader({
               aria-label="List View"
               className={cn(
                 'p-1.5 rounded-md transition-all duration-200',
-                viewMode === 'list'
+                isListView
                   ? 'bg-brand-rose/10 text-brand-rose'
                   : 'text-gray-400 hover:text-brand-charcoal'
               )}
@@ -115,7 +113,6 @@ export default function SearchHeader({
             </button>
           </div>
 
-          {/* Mobile Filters Button */}
           <button
             onClick={onFilterToggle}
             className="lg:hidden flex items-center justify-center gap-2 border border-gray-200 bg-white rounded-lg px-4 py-2 text-sm text-brand-charcoal hover:bg-gray-50 active:bg-gray-100 font-semibold shadow-xs flex-1 sm:flex-initial"
@@ -124,7 +121,6 @@ export default function SearchHeader({
             <span>Filters</span>
           </button>
 
-          {/* Custom Styled Sorting Dropdown */}
           <div ref={dropdownRef} className="relative flex-1 sm:flex-initial w-full sm:w-48">
             <button
               onClick={() => setIsOpen(!isOpen)}
@@ -137,10 +133,9 @@ export default function SearchHeader({
               />
             </button>
 
-            {/* Dropdown Options List */}
             {isOpen && (
               <ul className="absolute right-0 mt-1 w-full sm:w-48 bg-white border border-gray-100 rounded-lg shadow-lg z-20 py-1 font-body text-sm animate-fadeUp">
-                {sortOptions.map((opt) => {
+                {SORT_OPTIONS.map((opt) => {
                   const isSelected = opt.value === sortBy;
                   return (
                     <li key={opt.value}>

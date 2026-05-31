@@ -1,15 +1,8 @@
 'use client';
 
 import React, { createContext, useContext, useReducer, useEffect, useState } from 'react';
-import { Product } from '@/types';
+import { Product, CartItem } from '@/types';
 import { getDiscountedPrice } from '@/lib/utils';
-
-export interface CartItem {
-  product: Product;
-  quantity: number;
-  size: string;
-  color: string;
-}
 
 interface CartState {
   items: CartItem[];
@@ -39,6 +32,9 @@ const CartContext = createContext<{
   removeCoupon: () => void;
 } | undefined>(undefined);
 
+const CART_STORAGE_KEY = 'gg-fashion-cart';
+const COUPON_STORAGE_KEY = 'gg-fashion-coupon';
+
 function cartReducer(state: CartState, action: CartAction): CartState {
   switch (action.type) {
     case 'ADD_ITEM': {
@@ -48,35 +44,28 @@ function cartReducer(state: CartState, action: CartAction): CartState {
           item.size === action.payload.size &&
           item.color === action.payload.color
       );
-
       if (existingIdx > -1) {
         const nextItems = [...state.items];
         nextItems[existingIdx].quantity += action.payload.quantity;
         return { items: nextItems };
       }
-
       return { items: [...state.items, action.payload] };
     }
-
     case 'REMOVE_ITEM': {
       return {
         items: state.items.filter(
           (item) =>
-            !(
-              item.product.id === action.payload.id &&
+            !(item.product.id === action.payload.id &&
               item.size === action.payload.size &&
-              item.color === action.payload.color
-            )
+              item.color === action.payload.color)
         ),
       };
     }
-
     case 'REMOVE_ITEM_BY_ID': {
       return {
         items: state.items.filter((item) => item.product.id !== action.payload.id),
       };
     }
-
     case 'UPDATE_QUANTITY': {
       return {
         items: state.items.map((item) =>
@@ -88,7 +77,6 @@ function cartReducer(state: CartState, action: CartAction): CartState {
         ),
       };
     }
-
     case 'UPDATE_QUANTITY_BY_ID': {
       return {
         items: state.items.map((item) =>
@@ -98,23 +86,21 @@ function cartReducer(state: CartState, action: CartAction): CartState {
         ),
       };
     }
-
     case 'CLEAR_CART':
       return { items: [] };
-
     default:
       return state;
   }
 }
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
-  const [couponApplied, setCouponApplied] = useState(false);
+  const [couponApplied, setCouponApplied] = useState<boolean>(false);
   const [state, dispatch] = useReducer(cartReducer, { items: [] }, () => {
     if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('gg_cart');
+      const stored = localStorage.getItem(CART_STORAGE_KEY);
       if (stored) {
         try {
-          return { items: JSON.parse(stored) };
+          return { items: JSON.parse(stored) as CartItem[] };
         } catch {
           return { items: [] };
         }
@@ -123,15 +109,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     return { items: [] };
   });
 
-  // Sync to localStorage
   useEffect(() => {
-    localStorage.setItem('gg_cart', JSON.stringify(state.items));
+    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(state.items));
   }, [state.items]);
 
-  // Load coupon from localStorage if saved
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const savedCoupon = localStorage.getItem('gg_coupon_applied');
+      const savedCoupon = localStorage.getItem(COUPON_STORAGE_KEY);
       if (savedCoupon === 'true') {
         setCouponApplied(true);
       }
@@ -178,13 +162,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const clearCart = () => {
     dispatch({ type: 'CLEAR_CART' });
     setCouponApplied(false);
-    localStorage.removeItem('gg_coupon_applied');
+    localStorage.removeItem(COUPON_STORAGE_KEY);
   };
 
   const applyCoupon = (code: string) => {
     if (code.toUpperCase() === 'SAVE10') {
       setCouponApplied(true);
-      localStorage.setItem('gg_coupon_applied', 'true');
+      localStorage.setItem(COUPON_STORAGE_KEY, 'true');
       return true;
     }
     return false;
@@ -192,10 +176,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const removeCoupon = () => {
     setCouponApplied(false);
-    localStorage.removeItem('gg_coupon_applied');
+    localStorage.removeItem(COUPON_STORAGE_KEY);
   };
 
-  // Computed Values
   const itemCount = state.items.reduce((sum, item) => sum + item.quantity, 0);
 
   const subtotal = state.items.reduce((sum, item) => {
@@ -211,7 +194,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const couponDiscount = couponApplied ? subtotal * 0.1 : 0;
   
-  // Free Shipping on orders above ₹2000 INR
   const subtotalINR = subtotal * 83;
   const shippingINR = subtotalINR >= 2000 || itemCount === 0 ? 0 : 99;
   const shippingUSD = shippingINR / 83;
@@ -244,7 +226,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 export function useCart() {
   const context = useContext(CartContext);
   if (!context) {
-    throw new Error('useCart must be used within a CartProvider');
+    throw new Error('useCart must be used within CartProvider');
   }
   return context;
 }

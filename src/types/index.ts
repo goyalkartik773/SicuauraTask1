@@ -36,3 +36,10 @@ export interface ProductsApiResponse {
   skip: number;
   limit: number;
 }
+
+export interface CartItem {
+  product: Product;
+  quantity: number;
+  size: string;
+  color: string;
+}

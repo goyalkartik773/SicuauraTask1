@@ -29,6 +29,26 @@ interface ProductDetailClientProps {
   similarProducts: Product[];
 }
 
+function ProductAccordion({ title, defaultOpen = false, children }: { title: string, defaultOpen?: boolean, children: React.ReactNode }) {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
+  return (
+    <div className="border-b border-gray-100">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full flex justify-between items-center py-4 text-left font-display font-medium text-sm tracking-wide text-brand-charcoal hover:text-brand-rose transition-colors"
+      >
+        <span>{title}</span>
+        {isOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+      </button>
+      {isOpen && (
+        <div className="pb-4 space-y-2 animate-fadeUp">
+          {children}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function ProductDetailClient({ product, similarProducts }: ProductDetailClientProps) {
   const { addItem } = useCart();
   const [selectedImage, setSelectedImage] = useState(0);
@@ -36,8 +56,6 @@ export default function ProductDetailClient({ product, similarProducts }: Produc
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState('M');
   const [selectedColorIndex, setSelectedColorIndex] = useState(0);
-  const [isDetailsOpen, setIsDetailsOpen] = useState(true);
-  const [isShippingOpen, setIsShippingOpen] = useState(false);
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [addedMessage, setAddedMessage] = useState(false);
   const [imageErrors, setImageErrors] = useState<Record<number, boolean>>({});
@@ -47,7 +65,6 @@ export default function ProductDetailClient({ product, similarProducts }: Produc
   const displayDiscount = Math.round(product.discountPercentage);
   const showBadge = product.discountPercentage > 5;
 
-  // Star rendering helper
   const renderStars = (rating: number) => {
     const stars = [];
     const roundedRating = Math.round(rating);
@@ -65,7 +82,6 @@ export default function ProductDetailClient({ product, similarProducts }: Produc
     return stars;
   };
 
-  // Descriptive Swatches derived from product id
   const swatchColors = [
     { hex: '#8B7355', name: 'Desert Khaki' },
     { hex: '#1C1C1E', name: 'Ebony Charcoal' },
@@ -80,7 +96,6 @@ export default function ProductDetailClient({ product, similarProducts }: Produc
     swatchColors[(startIdx + 2) % 5],
   ];
 
-  // Fabric details based on category
   const getProductDetails = (cat: string) => {
     const isBeauty = cat.includes('beauty') || cat.includes('fragrance');
     if (isBeauty) {
@@ -99,7 +114,6 @@ export default function ProductDetailClient({ product, similarProducts }: Produc
 
   const detailsList = getProductDetails(product.category);
 
-  // Gallery Navigation helpers
   const handlePrevImage = () => {
     setSelectedImage((prev) => (prev === 0 ? images.length - 1 : prev - 1));
   };
@@ -108,7 +122,30 @@ export default function ProductDetailClient({ product, similarProducts }: Produc
     setSelectedImage((prev) => (prev === images.length - 1 ? 0 : prev + 1));
   };
 
-  // Add to cart handler
+  const handleImageError = (index: number) => {
+    setImageErrors(prev => ({ ...prev, [index]: true }));
+  };
+
+  const handleQuantityChange = (increment: boolean) => {
+    if (increment) {
+      setQuantity(prev => prev + 1);
+    } else {
+      setQuantity(prev => Math.max(1, prev - 1));
+    }
+  };
+
+  const handleSizeSelect = (size: string) => {
+    setSelectedSize(size);
+  };
+
+  const handleColorSelect = (index: number) => {
+    setSelectedColorIndex(index);
+  };
+
+  const handleWishlistToggle = () => {
+    setIsWishlisted(!isWishlisted);
+  };
+
   const handleAddToCart = () => {
     addItem({
       product,
@@ -127,23 +164,20 @@ export default function ProductDetailClient({ product, similarProducts }: Produc
       size: selectedSize,
       color: productColors[selectedColorIndex].name
     });
-    // Visual indicator before redirect
     setAddedMessage(true);
     setTimeout(() => {
       setAddedMessage(false);
-      window.location.href = '/search'; // Quick redirect back to collection for user review
+      window.location.href = '/search';
     }, 500);
   };
 
-  // Reviews mock list
   const REVIEWS = [
     { name: 'Hetal Shah', location: 'India', rating: 5, date: 'Feb 16, 2026', text: 'Beautiful dress, perfect size. I ordered for my sister\'s wedding and it arrived on time. The fabric quality is exceptional!', verified: true },
     { name: 'Indu Valavala', location: 'India', rating: 5, date: 'Feb 02, 2026', text: 'This is my second jewelry order from GG Fashion. I loved them both. They arrived well packed and exactly as shown in pictures.', verified: true },
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 animate-fadeUp">
-      {/* Breadcrumbs */}
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:max-w-screen-xl 2xl:max-w-screen-2xl py-8 animate-fadeUp">
       <div className="flex items-center gap-1.5 text-xs text-gray-400 mb-8 font-body select-none">
         <Link href="/" className="hover:text-brand-rose transition-colors duration-200">Home</Link>
         <span className="text-gray-300 font-light">›</span>
@@ -157,12 +191,9 @@ export default function ProductDetailClient({ product, similarProducts }: Produc
         <span className="text-brand-rose italic font-medium truncate max-w-[200px]">{product.title}</span>
       </div>
 
-      {/* Main product columns */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
-        {/* Left Column: Image Gallery */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
         <div className="flex flex-col">
-          {/* Main Display Container */}
-          <div className="relative aspect-[4/5] rounded-3xl overflow-hidden bg-gray-50 group/gallery border border-gray-100">
+          <div className="relative aspect-[4/3] md:aspect-[4/5] rounded-3xl overflow-hidden bg-gray-50 group/gallery border border-gray-100">
             {!imageErrors[selectedImage] ? (
               <Image
                 src={images[selectedImage]}
@@ -171,8 +202,8 @@ export default function ProductDetailClient({ product, similarProducts }: Produc
                 priority
                 sizes="(max-width: 768px) 100vw, 50vw"
                 quality={90}
-                className="object-cover"
-                onError={() => setImageErrors(prev => ({ ...prev, [selectedImage]: true }))}
+                className="object-cover animate-fadeIn"
+                onError={() => handleImageError(selectedImage)}
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-50">
@@ -180,7 +211,6 @@ export default function ProductDetailClient({ product, similarProducts }: Produc
               </div>
             )}
 
-            {/* Gallery cycling navigation */}
             {images.length > 1 && (
               <>
                 <button
@@ -200,10 +230,9 @@ export default function ProductDetailClient({ product, similarProducts }: Produc
               </>
             )}
 
-            {/* Wishlist Heart */}
             <button
-              onClick={() => setIsWishlisted(!isWishlisted)}
-              className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/90 shadow-md flex items-center justify-center text-brand-charcoal hover:text-brand-rose transition-colors"
+              onClick={handleWishlistToggle}
+              className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/90 shadow-md flex items-center justify-center text-brand-charcoal hover:text-brand-rose transition-colors min-w-[44px] min-h-[44px]"
               aria-label="Wishlist"
             >
               <Heart 
@@ -214,17 +243,15 @@ export default function ProductDetailClient({ product, similarProducts }: Produc
               />
             </button>
 
-            {/* Fullscreen Zoom Trigger */}
             <button
               onClick={() => setIsZoomOpen(true)}
-              className="absolute bottom-4 right-4 w-10 h-10 rounded-full bg-white/90 shadow-md flex items-center justify-center text-brand-charcoal hover:text-brand-rose transition-colors z-10"
+              className="absolute bottom-4 right-4 w-10 h-10 rounded-full bg-white/90 shadow-md flex items-center justify-center text-brand-charcoal hover:text-brand-rose transition-colors z-10 min-w-[44px] min-h-[44px]"
               aria-label="Zoom image"
             >
               <ZoomIn className="w-5 h-5" />
             </button>
           </div>
 
-          {/* Gallery Thumbnails Strip */}
           {images.length > 1 && (
             <div className="flex gap-3 mt-4 overflow-x-auto pb-1 scrollbar-hide select-none">
               {images.map((img, idx) => (
@@ -232,7 +259,7 @@ export default function ProductDetailClient({ product, similarProducts }: Produc
                   key={idx}
                   onClick={() => setSelectedImage(idx)}
                   className={cn(
-                    "w-20 h-20 rounded-xl overflow-hidden cursor-pointer border-2 transition-all duration-300 flex-shrink-0 relative",
+                    "w-14 h-14 md:w-20 md:h-20 rounded-xl overflow-hidden cursor-pointer border-2 transition-all duration-300 flex-shrink-0 relative",
                     selectedImage === idx ? "border-brand-rose scale-95 shadow-sm" : "border-transparent hover:border-gray-300"
                   )}
                 >
@@ -243,7 +270,7 @@ export default function ProductDetailClient({ product, similarProducts }: Produc
                     sizes="80px"
                     quality={90}
                     className="object-cover"
-                    onError={() => setImageErrors(prev => ({ ...prev, [idx]: true }))}
+                    onError={() => handleImageError(idx)}
                   />
                 </button>
               ))}
@@ -251,19 +278,15 @@ export default function ProductDetailClient({ product, similarProducts }: Produc
           )}
         </div>
 
-        {/* Right Column: Product Information */}
         <div className="flex flex-col select-none">
-          {/* Brand & Category eyebrow */}
           <span className="text-xs tracking-[0.3em] uppercase text-brand-gold font-semibold mb-2 block">
             GG FASHION
           </span>
 
-          {/* Product Title */}
           <h1 className="font-display text-3xl lg:text-4xl font-semibold text-brand-charcoal leading-tight mb-4">
             {product.title}
           </h1>
 
-          {/* Rating Row */}
           <div className="flex items-center gap-3 mb-6">
             <div className="flex items-center gap-0.5">
               {renderStars(product.rating)}
@@ -283,8 +306,7 @@ export default function ProductDetailClient({ product, similarProducts }: Produc
             </button>
           </div>
 
-          {/* Price Block container */}
-          <div className="bg-brand-cream rounded-2xl p-5 mb-6 border border-gray-100">
+          <div className="bg-brand-cream rounded-2xl p-3 md:p-5 mb-6 border border-gray-100">
             <div className="flex items-center flex-wrap">
               <span className="font-display text-3xl sm:text-4xl font-bold text-brand-charcoal">
                 {formatPrice(discountedPrice)}
@@ -305,63 +327,38 @@ export default function ProductDetailClient({ product, similarProducts }: Produc
             </p>
           </div>
 
-          {/* Main Description */}
           <p className="text-gray-500 text-sm leading-relaxed mb-6 font-body">
             {product.description}
           </p>
 
-          {/* Expandable Accordion Sections */}
           <div className="mb-6 border-t border-gray-100">
-            {/* Accordion 1: Details */}
-            <div className="border-b border-gray-100">
-              <button
-                onClick={() => setIsDetailsOpen(!isDetailsOpen)}
-                className="w-full flex justify-between items-center py-4 text-left font-display font-medium text-sm tracking-wide text-brand-charcoal hover:text-brand-rose transition-colors"
-              >
-                <span>PRODUCT DETAILS</span>
-                {isDetailsOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-              </button>
-              {isDetailsOpen && (
-                <div className="pb-4 space-y-2 animate-fadeUp">
-                  {detailsList.map((item, idx) => (
-                    <div key={idx} className="flex text-xs font-body leading-relaxed">
-                      <span className="w-24 text-gray-400 font-medium uppercase tracking-wider text-[9px]">{item.label}</span>
-                      <span className="flex-1 text-gray-600 font-medium">{item.value}</span>
-                    </div>
-                  ))}
+            <ProductAccordion title="PRODUCT DETAILS" defaultOpen={true}>
+              {detailsList.map((item, idx) => (
+                <div key={idx} className="flex text-xs font-body leading-relaxed">
+                  <span className="w-24 text-gray-400 font-medium uppercase tracking-wider text-[9px]">{item.label}</span>
+                  <span className="flex-1 text-gray-600 font-medium">{item.value}</span>
                 </div>
-              )}
-            </div>
+              ))}
+            </ProductAccordion>
 
-            {/* Accordion 2: Shipping & Returns */}
-            <div className="border-b border-gray-100">
-              <button
-                onClick={() => setIsShippingOpen(!isShippingOpen)}
-                className="w-full flex justify-between items-center py-4 text-left font-display font-medium text-sm tracking-wide text-brand-charcoal hover:text-brand-rose transition-colors"
-              >
-                <span>SHIPPING & RETURNS</span>
-                {isShippingOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-              </button>
-              {isShippingOpen && (
-                <div className="pb-4 space-y-2.5 animate-fadeUp text-xs font-body text-gray-600 font-medium">
-                  <p className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-brand-rose" />
-                    <span>Free Shipping on orders above ₹2,999</span>
-                  </p>
-                  <p className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-brand-rose" />
-                    <span>Delivery: 5&ndash;7 business days across India</span>
-                  </p>
-                  <p className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-brand-rose" />
-                    <span>7-day hassle-free return and exchange policy</span>
-                  </p>
-                </div>
-              )}
-            </div>
+            <ProductAccordion title="SHIPPING & RETURNS" defaultOpen={false}>
+              <div className="text-xs font-body text-gray-600 font-medium">
+                <p className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-brand-rose" />
+                  <span>Free Shipping on orders above ₹2,999</span>
+                </p>
+                <p className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-brand-rose" />
+                  <span>Delivery: 5&ndash;7 business days across India</span>
+                </p>
+                <p className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-brand-rose" />
+                  <span>7-day hassle-free return and exchange policy</span>
+                </p>
+              </div>
+            </ProductAccordion>
           </div>
 
-          {/* Size Picker Section */}
           <div className="mb-6">
             <h3 className="text-[10px] tracking-[0.2em] font-bold text-gray-400 uppercase mb-3">
               SELECT SIZE
@@ -372,9 +369,9 @@ export default function ProductDetailClient({ product, similarProducts }: Produc
                 return (
                   <button
                     key={size}
-                    onClick={() => setSelectedSize(size)}
+                    onClick={() => handleSizeSelect(size)}
                     className={cn(
-                      "w-12 h-12 rounded-full border text-xs font-semibold flex items-center justify-center transition-all duration-300 shadow-2xs",
+                      "w-10 h-10 md:w-12 md:h-12 rounded-full border text-xs font-semibold flex items-center justify-center transition-all duration-300 shadow-2xs min-w-[40px] min-h-[40px] md:min-w-0 md:min-h-0",
                       isSelected 
                         ? "border-brand-charcoal bg-brand-charcoal text-white scale-95" 
                         : "border-gray-200 text-gray-600 hover:border-brand-rose hover:text-brand-rose bg-white"
@@ -387,7 +384,6 @@ export default function ProductDetailClient({ product, similarProducts }: Produc
             </div>
           </div>
 
-          {/* Color Swatch Picker */}
           <div className="mb-8">
             <h3 className="text-[10px] tracking-[0.2em] font-bold text-gray-400 uppercase mb-3">
               SELECT COLOR
@@ -398,7 +394,7 @@ export default function ProductDetailClient({ product, similarProducts }: Produc
                 return (
                   <button
                     key={idx}
-                    onClick={() => setSelectedColorIndex(idx)}
+                    onClick={() => handleColorSelect(idx)}
                     className={cn(
                       "w-10 h-10 rounded-full border-2 transition-all duration-300 relative shadow-2xs cursor-pointer",
                       isSelected 
@@ -417,13 +413,11 @@ export default function ProductDetailClient({ product, similarProducts }: Produc
             </p>
           </div>
 
-          {/* Qty and Cart Actions */}
-          <div className="flex flex-col sm:flex-row gap-4 mb-6">
-            {/* Quantity Counter Selector */}
-            <div className="flex items-center border border-gray-200 rounded-xl bg-white h-14 shadow-2xs justify-between px-3 w-full sm:w-32">
+          <div className="flex flex-col md:flex-row gap-4 mb-6">
+            <div className="flex items-center border border-gray-200 rounded-xl bg-white h-14 shadow-2xs justify-between px-3 w-full md:w-32 flex-shrink-0">
               <button
-                onClick={() => setQuantity(prev => Math.max(1, prev - 1))}
-                className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-brand-rose transition-colors text-lg font-bold"
+                onClick={() => handleQuantityChange(false)}
+                className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-brand-rose transition-colors text-lg font-bold min-w-[44px] min-h-[44px]"
                 aria-label="Decrease quantity"
               >
                 &ndash;
@@ -432,28 +426,25 @@ export default function ProductDetailClient({ product, similarProducts }: Produc
                 {quantity}
               </span>
               <button
-                onClick={() => setQuantity(prev => prev + 1)}
-                className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-brand-rose transition-colors text-lg font-bold"
+                onClick={() => handleQuantityChange(true)}
+                className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-brand-rose transition-colors text-lg font-bold min-w-[44px] min-h-[44px]"
                 aria-label="Increase quantity"
               >
                 +
               </button>
             </div>
 
-            {/* CTA action buttons */}
-            <div className="flex-1 flex gap-4 w-full">
-              {/* Buy Now Button */}
+            <div className="flex-1 flex flex-col md:flex-row gap-3 w-full">
               <button
                 onClick={handleBuyNow}
-                className="flex-1 bg-brand-rose text-white h-14 rounded-xl font-medium tracking-[0.2em] text-xs uppercase hover:bg-brand-charcoal transition-colors duration-300 shadow-lg shadow-brand-rose/25"
+                className="flex-1 bg-brand-rose text-white h-14 rounded-xl font-medium tracking-[0.2em] text-xs uppercase hover:bg-brand-charcoal transition-colors duration-300 shadow-lg shadow-brand-rose/25 min-h-[44px]"
               >
                 BUY NOW
               </button>
               
-              {/* Add To Cart Button */}
               <button
                 onClick={handleAddToCart}
-                className="flex-1 border-2 border-brand-charcoal bg-transparent text-brand-charcoal h-14 rounded-xl font-medium tracking-[0.2em] text-xs uppercase hover:bg-brand-charcoal hover:text-white transition-all duration-300 flex items-center justify-center gap-2"
+                className="flex-1 border-2 border-brand-charcoal bg-transparent text-brand-charcoal h-14 rounded-xl font-medium tracking-[0.2em] text-xs uppercase hover:bg-brand-charcoal hover:text-white transition-all duration-300 flex items-center justify-center gap-2 min-h-[44px]"
               >
                 <ShoppingBag size={14} />
                 <span>ADD TO CART</span>
@@ -461,41 +452,38 @@ export default function ProductDetailClient({ product, similarProducts }: Produc
             </div>
           </div>
 
-          {/* Cart Added success overlay toast */}
           {addedMessage && (
             <div className="mb-6 p-3.5 bg-green-50 text-green-700 text-xs font-semibold rounded-xl border border-green-100 flex items-center gap-2 animate-[fadeUp_0.2s_ease-out]">
               <span className="text-base">✓</span> Added to shopping bag! (Size: {selectedSize}, Color: {productColors[selectedColorIndex].name})
             </div>
           )}
 
-          {/* Trust badges row */}
-          <div className="flex gap-6 py-6 border-t border-gray-100 mt-4 select-none">
+          <div className="grid grid-cols-3 md:flex gap-4 md:gap-6 py-6 border-t border-gray-100 mt-4 select-none">
             <div className="flex flex-col items-center gap-1.5 text-center flex-1">
-              <div className="w-10 h-10 rounded-full bg-brand-rose/10 flex items-center justify-center text-brand-rose">
-                <ShieldCheck className="w-5 h-5" />
+              <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-brand-rose/10 flex items-center justify-center text-brand-rose flex-shrink-0">
+                <ShieldCheck className="w-4 h-4 md:w-5 md:h-5" />
               </div>
-              <span className="text-[10px] tracking-wider text-gray-500 font-semibold uppercase">Secure Pay</span>
-              <span className="text-[9px] text-gray-400 font-medium leading-none">100% Protected</span>
+              <span className="text-[9px] md:text-[10px] tracking-wider text-gray-500 font-semibold uppercase leading-tight">Secure Pay</span>
+              <span className="text-[8px] md:text-[9px] text-gray-400 font-medium leading-none">100% Protected</span>
             </div>
             <div className="flex flex-col items-center gap-1.5 text-center flex-1">
-              <div className="w-10 h-10 rounded-full bg-brand-rose/10 flex items-center justify-center text-brand-rose">
-                <Truck className="w-5 h-5" />
+              <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-brand-rose/10 flex items-center justify-center text-brand-rose flex-shrink-0">
+                <Truck className="w-4 h-4 md:w-5 md:h-5" />
               </div>
-              <span className="text-[10px] tracking-wider text-gray-500 font-semibold uppercase">Fast Delivery</span>
-              <span className="text-[9px] text-gray-400 font-medium leading-none">5-7 Business Days</span>
+              <span className="text-[9px] md:text-[10px] tracking-wider text-gray-500 font-semibold uppercase leading-tight">Fast Delivery</span>
+              <span className="text-[8px] md:text-[9px] text-gray-400 font-medium leading-none">5-7 Days</span>
             </div>
             <div className="flex flex-col items-center gap-1.5 text-center flex-1">
-              <div className="w-10 h-10 rounded-full bg-brand-rose/10 flex items-center justify-center text-brand-rose">
-                <Award className="w-5 h-5" />
+              <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-brand-rose/10 flex items-center justify-center text-brand-rose flex-shrink-0">
+                <Award className="w-4 h-4 md:w-5 md:h-5" />
               </div>
-              <span className="text-[10px] tracking-wider text-gray-500 font-semibold uppercase">Genuine Items</span>
-              <span className="text-[9px] text-gray-400 font-medium leading-none">Curated Authenticity</span>
+              <span className="text-[9px] md:text-[10px] tracking-wider text-gray-500 font-semibold uppercase leading-tight">Genuine Items</span>
+              <span className="text-[8px] md:text-[9px] text-gray-400 font-medium leading-none">Curated Luxury</span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Similar Collection Section */}
       {similarProducts.length > 0 && (
         <div className="border-t border-gray-100 pt-12 mb-16 select-none">
           <div className="flex justify-between items-end mb-8">
@@ -513,14 +501,12 @@ export default function ProductDetailClient({ product, similarProducts }: Produc
         </div>
       )}
 
-      {/* Reviews & Ratings Section */}
       <div id="reviews-section" className="border-t border-gray-100 pt-16">
         <h2 className="font-display text-3xl font-light text-brand-charcoal mb-10">
           Ratings & <span className="text-brand-rose font-bold">Reviews</span>
         </h2>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-          {/* Reviews Score Card */}
           <div className="bg-brand-cream border border-gray-100 rounded-3xl p-8 text-center flex flex-col items-center justify-center select-none h-fit">
             <span className="font-display text-7xl font-bold text-brand-charcoal leading-none mb-4">
               4.5
@@ -536,7 +522,6 @@ export default function ProductDetailClient({ product, similarProducts }: Produc
             </button>
           </div>
 
-          {/* Reviews list cards */}
           <div className="lg:col-span-2 space-y-6">
             <div className="divide-y divide-gray-100">
               {REVIEWS.map((review, idx) => (
@@ -553,12 +538,10 @@ export default function ProductDetailClient({ product, similarProducts }: Produc
                     <span className="text-xs text-gray-400 font-body">{review.date}</span>
                   </div>
                   
-                  {/* review star row */}
                   <div className="flex items-center gap-0.5 mb-3 select-none">
                     {renderStars(review.rating)}
                   </div>
                   
-                  {/* review text content */}
                   <p className="text-xs sm:text-sm text-gray-600 font-body leading-relaxed font-medium">
                     {review.text}
                   </p>
@@ -566,7 +549,6 @@ export default function ProductDetailClient({ product, similarProducts }: Produc
               ))}
             </div>
 
-            {/* Static dot pagination indicators */}
             <div className="flex justify-center items-center gap-2 pt-6 select-none border-t border-gray-100/50">
               <span className="w-2.5 h-2.5 rounded-full bg-brand-rose cursor-pointer" />
               <span className="w-2 h-2 rounded-full bg-gray-200 hover:bg-gray-400 transition-colors cursor-pointer" />
@@ -577,7 +559,6 @@ export default function ProductDetailClient({ product, similarProducts }: Produc
         </div>
       </div>
 
-      {/* Fullscreen zoom lightbox overlay modal */}
       {isZoomOpen && (
         <div className="fixed inset-0 z-50 bg-black/90 flex flex-col justify-center items-center p-4 backdrop-blur-md animate-fadeUp">
           <button

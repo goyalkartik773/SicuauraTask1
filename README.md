@@ -2,8 +2,8 @@
 
 A production-grade fashion e-commerce storefront built with Next.js 14, TypeScript, and Tailwind CSS.
 
-**Live Demo:** [your-vercel-url]  
-**GitHub:** [your-repo-url]
+**Live Demo:** [ggaligance.vercel.app](https://ggaligance.vercel.app)  
+**GitHub:** [github.com/ggaligance/gg-fashion](https://github.com/ggaligance/gg-fashion)
 
 ---
 
@@ -183,8 +183,6 @@ Measured on Vercel production deployment:
 
 *(Run Lighthouse on the live URL to verify)*
 
----
-
-**After deploying, update these placeholders:**
-- `[your-vercel-url]` → your actual Vercel URL
-- `[your-repo-url]` → your actual GitHub repo URL
+**Configured deployment URL:**
+- Production URL: `https://ggaligance.vercel.app`
+- GitHub repository: `https://github.com/ggaligance/gg-fashion`

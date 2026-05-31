@@ -1,6 +1,8 @@
 import { fetchProducts, fetchCategories } from '@/lib/api';
 import SearchResults from '@/components/search/SearchResults';
 import type { FilterState } from '@/types';
+import { SITE_CONFIG } from '@/lib/config';
+import type { Metadata } from 'next';
 
 interface SearchPageProps {
   searchParams: {
@@ -13,11 +15,24 @@ interface SearchPageProps {
   };
 }
 
-export async function generateMetadata({ searchParams }: SearchPageProps) {
+export async function generateMetadata({ searchParams }: SearchPageProps): Promise<Metadata> {
   const q = searchParams.q || '';
+  const title = q ? `Results for "${q}" | ${SITE_CONFIG.name}` : `Shop All Products | ${SITE_CONFIG.name}`;
+  const description = q
+    ? `Browse our collection of ${q} — sarees, suits, lehengas and wedding wear.`
+    : `Shop the finest selection of ethnic wear — sarees, lehengas, suits and wedding collections.`;
+
   return {
-    title: q ? `Results for "${q}"` : 'Shop All Products',
-    description: `Browse our collection${q ? ` of ${q}` : ''} — sarees, suits, lehengas and more.`,
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: `${SITE_CONFIG.url}/search`,
+    },
+    alternates: {
+      canonical: `${SITE_CONFIG.url}/search`,
+    },
   };
 }
 

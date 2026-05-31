@@ -5,6 +5,8 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { CartProvider } from "@/context/CartContext";
 import { Analytics } from "@vercel/analytics/next";
+import { SITE_CONFIG } from "@/lib/config";
+import JsonLd from "@/components/seo/JsonLd";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -22,18 +24,22 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_CONFIG.url),
   title: {
-    default: "GG Fashion",
-    template: "%s | GG Fashion",
+    default: SITE_CONFIG.name,
+    template: `%s | ${SITE_CONFIG.name}`,
   },
-  description: "Curated premium fashion, accessories, and lifestyle products designed for the modern wardrobe.",
+  description: SITE_CONFIG.description,
   openGraph: {
-    title: "GG Fashion",
-    description: "Curated premium fashion, accessories, and lifestyle products designed for the modern wardrobe.",
-    url: "https://gg-fashion.vercel.app",
-    siteName: "GG Fashion",
+    title: SITE_CONFIG.name,
+    description: SITE_CONFIG.description,
+    url: SITE_CONFIG.url,
+    siteName: SITE_CONFIG.name,
     locale: "en_IN",
     type: "website",
+  },
+  alternates: {
+    canonical: "/",
   },
 };
 
@@ -42,9 +48,21 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": SITE_CONFIG.name,
+    "url": SITE_CONFIG.url,
+    "logo": `${SITE_CONFIG.url}/favicon.ico`,
+    "sameAs": [
+      `https://twitter.com/${SITE_CONFIG.twitter.replace("@", "")}`
+    ]
+  };
+
   return (
     <html lang="en" className={`${cormorant.variable} ${dmSans.variable}`}>
       <body className="antialiased">
+        <JsonLd schema={organizationSchema} />
         <CartProvider>
           <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-brand-rose focus:text-white focus:px-4 focus:py-2 focus:rounded-lg">
             Skip to main content

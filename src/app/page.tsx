@@ -3,10 +3,20 @@ import HeroSection from '@/components/home/HeroSection';
 import CategoryRow from '@/components/home/CategoryRow';
 import FeaturedBanner from '@/components/home/FeaturedBanner';
 import NewArrivalsSection from '@/components/home/NewArrivalsSection';
+import { SITE_CONFIG } from '@/lib/config';
+import type { Metadata } from 'next';
 
-export const metadata = {
-  title: 'GG Fashion – Elegance Redefined',
-  description: 'Shop India\'s finest ethnic wear — sarees, lehengas, suits and more.',
+export const metadata: Metadata = {
+  title: `${SITE_CONFIG.name} – Elegance Redefined`,
+  description: SITE_CONFIG.description,
+  openGraph: {
+    title: `${SITE_CONFIG.name} – Elegance Redefined`,
+    description: SITE_CONFIG.description,
+    url: SITE_CONFIG.url,
+  },
+  alternates: {
+    canonical: SITE_CONFIG.url,
+  },
 };
 
 export default async function HomePage() {

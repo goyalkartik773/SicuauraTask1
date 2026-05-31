@@ -18,12 +18,12 @@ A production-grade fashion e-commerce storefront built with Next.js 14, TypeScri
 | Product Detail `/product/5` | 100 |
 | Cart `/cart` | 100 |
 
-![SEO Score - Homepage](screenshots/seo1.png)
-![SEO Score - Search Page](screenshots/seo2.png)
-![SEO Score - Category Filter](screenshots/seo3.png)
-![SEO Score - Product Detail 1](screenshots/seo4.png)
-![SEO Score - Product Detail 2](screenshots/seo5.png)
-![SEO Score - Cart Page](screenshots/seo6.png)
+![SEO Score - Homepage](public/screenshots/seo1.png)
+![SEO Score - Search Page](public/screenshots/seo2.png)
+![SEO Score - Category Filter](public/screenshots/seo3.png)
+![SEO Score - Product Detail 1](public/screenshots/seo4.png)
+![SEO Score - Product Detail 2](public/screenshots/seo5.png)
+![SEO Score - Cart Page](public/screenshots/seo6.png)
 
 ---
 
